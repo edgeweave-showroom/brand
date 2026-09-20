@@ -1,0 +1,29 @@
+version = 1
+SPDX-PackageName = "Edgeweave brand assets"
+SPDX-PackageSupplier = "Organization: Technologies Edgeweave"
+SPDX-PackageDownloadLocation = "https://github.com/edgeweave-showroom/brand"
+
+# Default: every file is a brand asset. Later annotations override earlier
+# ones, so anything not matched below falls under the restrictive terms.
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
+SPDX-License-Identifier = "LicenseRef-Edgeweave-Brand"
+
+# Scripts, repository configuration and documentation.
+[[annotations]]
+path = [
+  "**/*.py",
+  "**/*.sh",
+  "**/*.js",
+  "**/*.ts",
+  "**/*.md",
+  "**/*.toml",
+  "**/*.yml",
+  "**/*.yaml",
+  ".editorconfig",
+  ".gitattributes",
+  ".gitignore",
+]
+SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
+SPDX-License-Identifier = "MIT"

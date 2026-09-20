@@ -1,0 +1,89 @@
+Edgeweave Brand Assets - Terms of Use
+
+Version 1.0, 20 September 2026
+
+The Edgeweave name, symbol, wordmark, logos, ASCII rendering and any other brand
+identifiers in this repository (the "Marks") are trademarks, whether or not
+registered, and copyrighted works of 16755267 Canada Inc., a corporation
+incorporated under the Canada Business Corporations Act, corporation number
+1675526-7, doing business as Technologies Edgeweave ("Edgeweave"). Edgeweave
+reserves all rights in the Marks except for the limited permission granted
+below.
+
+These terms apply to the Marks only. The scripts, tooling and documentation in
+this repository are licensed separately (see LICENSE.md). A licence on code
+that reproduces or produces a Mark grants no right to the Mark itself.
+
+
+1. Permitted use
+
+You may use the Marks, without asking, to refer accurately to Edgeweave and
+its products and services. In particular you may:
+
+  a. mention or depict Edgeweave in articles, talks, documentation, tutorials,
+     comparisons, reviews and news coverage;
+  b. link to Edgeweave websites, repositories and services;
+  c. state that your product, service or project integrates with, is built
+     on, or is compatible with Edgeweave, for example "works with Edgeweave"
+     or "Edgeweave plugin for X";
+  d. include the Marks, including the ASCII rendering, in software,
+     command-line tools, documentation or user interfaces that connect to,
+     integrate with or refer to Edgeweave;
+  e. redistribute this repository, or the Marks it contains, unmodified.
+
+This permission is subject to the following conditions:
+
+  - use the Marks as provided in this repository, choosing among the supplied
+    variants and resizing them proportionally, without any other change;
+  - keep the Marks less prominent than your own name and branding, so that
+    the source of your product or content cannot be confused with Edgeweave;
+  - do not state or imply that Edgeweave sponsors, endorses, certifies or is
+    affiliated with you, your product or your content, unless Edgeweave has
+    agreed to it in writing.
+
+
+2. Prohibited use
+
+Without prior written permission from Edgeweave, you may not:
+
+  a. modify the Marks: alter their colours, proportions, typography or
+     orientation, add or remove elements, animate them, combine them with
+     other marks or artwork, or create derivative marks from them;
+  b. use the Marks, or anything confusingly similar, as or within the name,
+     logo, icon, domain name, social media handle or overall branding of a
+     company, product, service, project or event;
+  c. use the Marks on merchandise (clothing, stickers, packaging and similar
+     goods), whether sold or given away;
+  d. use the Marks in a way that is misleading, unlawful or defamatory, or
+     that could damage the reputation of Edgeweave;
+  e. register, or attempt to register, the Marks or anything confusingly
+     similar as a trademark, company name, domain name or otherwise.
+
+
+3. Modified software
+
+Software published by Edgeweave may display the Marks, for example as a
+command-line banner. If you distribute a modified version of such software,
+remove the Marks or clearly identify your version as unofficial, so that it
+cannot be mistaken for an Edgeweave release. Unmodified redistributions may
+keep the Marks.
+
+
+4. Other uses
+
+For any use not covered by section 1 (co-branding, events, merchandise, use
+in a product name, and so on), ask first by opening an issue at
+https://github.com/edgeweave-showroom/brand.
+
+
+5. Reservation of rights
+
+Nothing in these terms transfers ownership of, or grants any right in, the
+Marks beyond the permission expressly stated above. Edgeweave may withdraw
+this permission for any use that does not comply with these terms, and may
+update these terms by publishing a new version in this repository.
+
+
+6. No warranty
+
+The Marks are provided "as is", without warranty of any kind.

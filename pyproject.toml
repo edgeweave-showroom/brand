@@ -1,0 +1,19 @@
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "COM812", # trailing commas are the formatter's job
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.flake8-copyright]
+notice-rgx = "SPDX-FileCopyrightText: \\d{4} Technologies Edgeweave"
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["."]
