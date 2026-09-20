@@ -10,6 +10,22 @@ its products, with the tooling that generates them.
 | `logo/`     | Symbol, full logo and ASCII rendering: SVG masters, exports in every variant, generation scripts   |
 | `LICENSES/` | Licence texts, in the [REUSE](https://reuse.software) layout                                       |
 
+## Symbol master
+
+[`logo/symbol/edgeweave-symbol.svg`](logo/symbol/edgeweave-symbol.svg) is the
+single source of every symbol variant. It is the framed, light-theme symbol on
+its background; colours are the three classes in its `<style>` block, per-layer
+opacities are `fill-opacity` attributes, and every layer has a stable `id`.
+Each variant is a substitution on it:
+
+| Variant       | Change                                                                  |
+| ------------- | ----------------------------------------------------------------------- |
+| Dark theme    | `.background` → `#0d1829`, `.primary` → `#00dcff`; `.accent` unchanged  |
+| Monochrome    | `.primary` and `.accent` → black or white                               |
+| Flat          | drop every `fill-opacity` and the `glow` layer                          |
+| No frame      | drop the `frame` layer                                                  |
+| No background | drop the `background` layer                                             |
+
 ## Using the assets
 
 Short version; the full terms are in [LICENSE.md](LICENSE.md).
