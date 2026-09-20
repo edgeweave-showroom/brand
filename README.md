@@ -27,10 +27,36 @@ Each variant is a substitution on it:
 | No background | drop the `background` layer                                             |
 
 [`logo/symbol/generate.py`](logo/symbol/generate.py) applies them and writes
-`logo/symbol/svg/`, `png/` (1000 px) and `pdf/`, one file per variant, named
-`edgeweave-symbol-<theme>[-background][-flat][-framed]`: `light` and `dark`
-come with or without their background tile, `black` and `white` with their
-opacities or flat, and every one of them with or without the frame. Rendering needs
+every variant, split by what it is for:
+
+```
+logo/symbol/
+├── rgb/           screen: SVG and PNG (1000 px)
+│   ├── light-bg/    edgeweave-symbol-light[-background][-framed]
+│   └── dark-bg/     edgeweave-symbol-dark[-background][-framed]
+├── cmyk/          print: PDF with DeviceCMYK inks
+│   ├── light-bg/    same names, .pdf
+│   └── dark-bg/
+└── monochrome/    one ink, all three formats
+                   edgeweave-symbol-black[-flat][-framed], edgeweave-symbol-white[-flat][-framed]
+```
+
+`-background` adds the tile behind the symbol, `-framed` the border, `-flat`
+removes the opacities (monochrome only). The inks, sRGB for screen and CMYK
+for print, are the `INKS` table of the script:
+
+| Ink    | Role                     | sRGB      | CMYK             |
+| ------ | ------------------------ | --------- | ---------------- |
+| teal   | primary, light theme     | `#00b5b5` | 67 / 0 / 27 / 0  |
+| cyan   | primary, dark theme      | `#00dcff` | 50 / 0 / 4 / 0   |
+| orange | accent, both themes      | `#ff622d` | 0 / 72 / 82 / 0  |
+| navy   | background, dark theme   | `#0d1829` | 99 / 85 / 60 / 55 |
+| white  | background, light theme  | `#ffffff` | 0 / 0 / 0 / 0    |
+| black  | monochrome               | `#000000` | 0 / 0 / 0 / 100  |
+
+The CMYK values are the sRGB ones converted through the U.S. Sheetfed Coated
+v2 profile. The PDFs are written by the script itself, without a colour
+profile, so those numbers reach the press as they are. PNG rendering needs
 `rsvg-convert` from librsvg (`brew install librsvg`, `apt install
 librsvg2-bin`). Edit the master, run the script, commit all of it.
 
