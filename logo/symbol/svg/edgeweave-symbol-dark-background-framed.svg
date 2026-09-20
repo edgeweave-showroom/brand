@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
   <style>
-    .background { fill: #ffffff; }
-    .primary { fill: #00b5b5; }
+    .background { fill: #0d1829; }
+    .primary { fill: #00dcff; }
     .accent { fill: #ff622d; }
   </style>
   <rect id="background" class="background" width="500" height="500" />

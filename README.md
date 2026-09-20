@@ -10,7 +10,7 @@ its products, with the tooling that generates them.
 | `logo/`     | Symbol, full logo and ASCII rendering: SVG masters, exports in every variant, generation scripts   |
 | `LICENSES/` | Licence texts, in the [REUSE](https://reuse.software) layout                                       |
 
-## Symbol master
+## Symbol
 
 [`logo/symbol/edgeweave-symbol.svg`](logo/symbol/edgeweave-symbol.svg) is the
 single source of every symbol variant. It is the framed, light-theme symbol on
@@ -25,6 +25,14 @@ Each variant is a substitution on it:
 | Flat          | drop every `fill-opacity` and the `glow` layer                          |
 | No frame      | drop the `frame` layer                                                  |
 | No background | drop the `background` layer                                             |
+
+[`logo/symbol/generate.py`](logo/symbol/generate.py) applies them and writes
+`logo/symbol/svg/`, `png/` (1000 px) and `pdf/`, one file per variant, named
+`edgeweave-symbol-<theme>[-background][-flat][-framed]`: `light` and `dark`
+come with or without their background tile, `black` and `white` with their
+opacities or flat, and every one of them with or without the frame. Rendering needs
+`rsvg-convert` from librsvg (`brew install librsvg`, `apt install
+librsvg2-bin`). Edit the master, run the script, commit all of it.
 
 ## Using the assets
 

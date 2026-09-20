@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <style>
+    .primary { fill: #000000; }
+    .accent { fill: #000000; }
+  </style>
+  <g id="symbol" transform="translate(85.984375 63.783203) scale(6.831125)">
+    <path id="outer-hexagon" class="primary" fill-rule="evenodd" d="M23.636 2.352L2.626 14.481L2.251 15.131L2.251 39.391L2.626 40.039L23.636 52.17L24.386 52.17L45.396 40.04L45.77 39.39L45.77 15.132L45.395 14.482L24.385 2.352L23.636 2.352ZM23.261 4.301L23.261 25.961L4.501 15.131L23.261 4.301ZM24.761 4.301L43.521 15.131L24.761 25.961L24.761 4.301ZM3.751 16.43L22.511 27.26L3.751 38.09L3.751 16.43ZM44.271 16.43L44.271 38.09L25.511 27.26L44.271 16.43ZM23.261 28.56L23.261 50.22L4.501 39.39L23.261 28.56ZM24.761 28.56L43.521 39.39L24.761 50.22L24.761 28.56Z" />
+    <path id="inner-hexagon" class="primary" fill-rule="evenodd" d="M10.64 34.982L10.64 19.538L24.01 11.816L37.38 19.538L37.38 34.982L24.01 42.704L10.64 34.982ZM24.01 39.816L34.88 33.538L34.88 20.982L24.01 14.704L13.14 20.982L13.14 33.538L24.01 39.816Z" />
+    <circle id="node-top" class="primary" cx="24.01" cy="3" r="3" />
+    <circle id="node-top-right" class="primary" cx="45.02" cy="15.13" r="3" />
+    <circle id="node-bottom-right" class="primary" cx="45.02" cy="39.39" r="3" />
+    <circle id="node-bottom" class="primary" cx="24.01" cy="51.52" r="3" />
+    <circle id="node-bottom-left" class="primary" cx="3" cy="39.39" r="3" />
+    <circle id="node-top-left" class="primary" cx="3" cy="15.13" r="3" />
+    <circle id="core" class="accent" cx="24.01" cy="27.26" r="4.5" />
+  </g>
+</svg>
