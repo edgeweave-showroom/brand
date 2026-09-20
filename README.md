@@ -22,9 +22,9 @@ Each variant is a substitution on it:
 | ------------- | ----------------------------------------------------------------------- |
 | Dark theme    | `.background` → `#0d1829`, `.primary` → `#00dcff`; `.accent` unchanged  |
 | Monochrome    | `.primary` and `.accent` → black or white                               |
-| Flat          | drop every `fill-opacity` and the `glow` layer                          |
+| Solid         | drop every `fill-opacity` and the `glow` layer                          |
 | No frame      | drop the `frame` layer                                                  |
-| No background | drop the `background` layer                                             |
+| Transparent   | drop the `background` layer                                             |
 
 [`logo/symbol/generate.py`](logo/symbol/generate.py) applies them and writes
 every variant, split by what it is for:
@@ -32,18 +32,21 @@ every variant, split by what it is for:
 ```
 logo/symbol/
 ├── rgb/           screen: SVG and PNG (1000 px)
-│   ├── light-bg/    edgeweave-symbol-light[-background][-framed]
-│   └── dark-bg/     edgeweave-symbol-dark[-background][-framed]
+│   ├── light-bg/    edgeweave-symbol-light-{transparent,on-white}[-framed]
+│   └── dark-bg/     edgeweave-symbol-dark-{transparent,on-navy}[-framed]
 ├── cmyk/          print: PDF with DeviceCMYK inks
 │   ├── light-bg/    same names, .pdf
 │   └── dark-bg/
 └── monochrome/    one ink, all three formats
-                   edgeweave-symbol-black[-flat][-framed], edgeweave-symbol-white[-flat][-framed]
+    ├── black/       edgeweave-symbol-black-transparent[-solid][-framed]
+    └── white/       edgeweave-symbol-white-transparent[-solid][-framed]
 ```
 
-`-background` adds the tile behind the symbol, `-framed` the border, `-flat`
-removes the opacities (monochrome only). The inks, sRGB for screen and CMYK
-for print, are the `INKS` table of the script:
+A name reads theme, background, options: `-transparent` has nothing behind
+the symbol, `-on-white` and `-on-navy` the tile in that ink; `-solid`
+removes the opacities (monochrome only); `-framed` adds the border. The
+inks, sRGB for screen and CMYK for print, are the `INKS` table of the
+script:
 
 | Ink    | Role                     | sRGB      | CMYK             |
 | ------ | ------------------------ | --------- | ---------------- |

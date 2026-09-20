@@ -7,12 +7,14 @@
 
 Each variant is a substitution on the master: a theme overrides colours in
 its <style> block, and layers are dropped by id (the background tile, the
-frame, and for the flat variants the glow together with every opacity).
-Screen files go under rgb/: the derived SVG, and a PNG rendered from it by
-rsvg-convert (librsvg). Print files go under cmyk/: a PDF written here from
-the same geometry with DeviceCMYK fills, so the ink values below reach the
-press untouched. Monochrome variants are a single ink either way and get all
-three formats under monochrome/.
+frame, and for the solid variants the glow together with every opacity).
+Its name spells all of it out: theme, then the background (transparent, or
+the tile's ink), then the options. Screen files go under rgb/: the derived
+SVG, and a PNG rendered from it by rsvg-convert (librsvg). Print files go
+under cmyk/: a PDF written here from the same geometry with DeviceCMYK
+fills, so the ink values below reach the press untouched. Monochrome
+variants are a single ink either way and get all three formats under
+monochrome/.
 """
 
 import copy
@@ -58,17 +60,17 @@ MONOCHROME = ("black", "white")
 
 
 def variants() -> list[list[str]]:
-    """List the name parts of every variant: theme first, then its options."""
+    """List the name parts of every variant: theme, background, then options."""
     colour = [
-        [theme, *background, *framed]
+        [theme, background, *framed]
         for theme in ("light", "dark")
-        for background in ([], ["background"])
+        for background in ("transparent", f"on-{THEMES[theme]['background']}")
         for framed in ([], ["framed"])
     ]
     mono = [
-        [theme, *flat, *framed]
+        [theme, "transparent", *solid, *framed]
         for theme in MONOCHROME
-        for flat in ([], ["flat"])
+        for solid in ([], ["solid"])
         for framed in ([], ["framed"])
     ]
     return colour + mono
@@ -78,7 +80,7 @@ def outdir(parts: list[str], fmt: str) -> Path:
     """Directory of a variant's file in the given format."""
     theme = parts[0]
     if theme in MONOCHROME:
-        return HERE / "monochrome"
+        return HERE / "monochrome" / theme
     return HERE / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
 
 
@@ -92,7 +94,7 @@ def drop(root: ET.Element, ids: set[str]) -> None:
 
 def derive(master: ET.Element, parts: list[str]) -> ET.Element:
     """Return the variant named by parts as a new tree."""
-    theme, options = parts[0], set(parts[1:])
+    theme, background, *options = parts
     root = copy.deepcopy(master)
     style = root.find(f"{{{SVG_NS}}}style")
     if style is None:
@@ -100,11 +102,11 @@ def derive(master: ET.Element, parts: list[str]) -> ET.Element:
         raise ValueError(msg)
 
     ids: set[str] = set()
-    if "background" not in options:
+    if background == "transparent":
         ids.add("background")
     if "framed" not in options:
         ids.add("frame")
-    if "flat" in options:
+    if "solid" in options:
         ids.add("glow")
         for element in root.iter():
             element.attrib.pop("fill-opacity", None)
@@ -266,11 +268,8 @@ def main() -> None:
 
     ET.register_namespace("", SVG_NS)
     master = ET.parse(MASTER).getroot()  # noqa: S314  # our own file
-    if (
-        svg_text(derive(master, ["light", "background", "framed"]))
-        != MASTER.read_text()
-    ):
-        sys.exit(f"{MASTER.name} is not the light framed background variant of itself")
+    if svg_text(derive(master, ["light", "on-white", "framed"])) != MASTER.read_text():
+        sys.exit(f"{MASTER.name} is not its own light-on-white-framed variant")
     for name in ("rgb", "cmyk", "monochrome"):
         shutil.rmtree(HERE / name, ignore_errors=True)
 
