@@ -10,3 +10,6 @@ Thumbs.db
 __pycache__/
 .venv/
 node_modules/
+
+# Release package
+dist/

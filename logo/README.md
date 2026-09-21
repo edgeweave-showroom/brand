@@ -3,25 +3,23 @@
 The symbol, the full logo (symbol, wordmark and tagline) and an ASCII
 rendering for terminals. Every file under `symbol/` and `full/` is generated
 from the two masters in `source/`; edit a master, run the script, commit all
-of it.
+of it. The same two directories, with the terms of use, are the zip attached
+to every [release](https://github.com/edgeweave-showroom/brand/releases).
 
 ## Picking a file
 
 ```
-logo/
-├── symbol/                          the symbol alone
-│   ├── rgb/                         screen: SVG and PNG (1000 px wide)
-│   │   ├── light_bg/                  for light backgrounds
-│   │   └── dark_bg/                   for dark backgrounds
-│   ├── cmyk/                        print: PDF with DeviceCMYK inks
-│   │   ├── light_bg/
-│   │   └── dark_bg/
-│   └── monochrome/                  one ink, SVG, PNG and PDF
-│       ├── black/                     for light backgrounds
-│       └── white/                     for dark backgrounds
-├── full/                            the same tree for the full logo
-├── source/                          the two masters and the generator
-└── ascii/                           the terminal rendering
+symbol/                          the symbol alone
+├── rgb/                         screen: SVG and PNG (1000 px wide)
+│   ├── light_bg/                  for light backgrounds
+│   └── dark_bg/                   for dark backgrounds
+├── cmyk/                        print: PDF with DeviceCMYK inks
+│   ├── light_bg/
+│   └── dark_bg/
+└── monochrome/                  one ink, SVG, PNG and PDF
+    ├── black/                     for light backgrounds
+    └── white/                     for dark backgrounds
+full/                            the same tree for the full logo
 ```
 
 A file name is a list of tags, separated by hyphens, and spells everything
@@ -87,6 +85,21 @@ profile, so those numbers reach the press as they are.
 ```sh
 brew install librsvg        # or: apt install librsvg2-bin; for the PNGs
 source/generate.py
+```
+
+## Release package
+
+[`source/package.py`](source/package.py) bundles `symbol/`, `full/`, the
+terms of use and the "Picking a file" section above into
+`dist/edgeweave-logo.zip`, for people who will not clone the repository. CI
+builds it on every pull request, and every push to `main` that changes any of
+its content publishes a GitHub release with it, numbered after the previous
+one: `v1.0`, `v1.1`, and so on. So the latest one is always at
+`releases/latest/download/edgeweave-logo.zip`. For another number, a redesign
+say, run the workflow by hand with the version as input.
+
+```sh
+source/package.py v1.0
 ```
 
 ## Typography
