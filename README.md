@@ -12,7 +12,7 @@ its products, with the tooling that generates them.
 
 ## Symbol
 
-[`logo/symbol/edgeweave-symbol.svg`](logo/symbol/edgeweave-symbol.svg) is the
+[`logo/symbol/source/edgeweave-symbol.svg`](logo/symbol/source/edgeweave-symbol.svg) is the
 single source of every symbol variant: the light-theme symbol, framed, on a
 transparent background. It is flattened, so that its tints do not change
 with whatever it is placed on: every shape is opaque, and where two
@@ -30,11 +30,12 @@ and every shape has a stable `id`. Each variant is a substitution on it:
 | On a tile   | insert the `background` layer                                          |
 | No frame    | drop the `frame` layer                                                 |
 
-[`logo/symbol/generate.py`](logo/symbol/generate.py) applies them and writes
-every variant, split by what it is for:
+[`logo/symbol/source/generate.py`](logo/symbol/source/generate.py) applies
+them and writes every variant next to `source/`, split by what it is for:
 
 ```
 logo/symbol/
+├── source/        the master and the script
 ├── rgb/           screen: SVG and PNG (1000 px)
 │   ├── light-bg/    edgeweave-symbol-light-{transparent,on-white}[-framed]
 │   └── dark-bg/     edgeweave-symbol-dark-{transparent,on-navy}[-framed]

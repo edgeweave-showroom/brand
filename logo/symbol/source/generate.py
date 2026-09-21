@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 """Generate every symbol variant from the master, edgeweave-symbol.svg.
 
-    ./generate.py            rewrite rgb/, cmyk/ and monochrome/ next to the master
+    ./generate.py            rewrite ../rgb/, ../cmyk/ and ../monochrome/
 
 The master is flattened: every shape is opaque, and where two translucent
 layers of the design overlap, the overlap is a shape of its own. A shape's
@@ -33,6 +33,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 MASTER = HERE / "edgeweave-symbol.svg"
+OUT = HERE.parent
 PREFIX = "edgeweave-symbol"
 PNG_SIZE = 1000
 PAGE = 500  # points, the master's viewBox: one SVG unit is one point
@@ -130,8 +131,8 @@ def outdir(parts: list[str], fmt: str) -> Path:
     """Directory of a variant's file in the given format."""
     theme = parts[0]
     if theme in MONOCHROME:
-        return HERE / "monochrome" / theme
-    return HERE / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
+        return OUT / "monochrome" / theme
+    return OUT / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
 
 
 def recipe(cls: str) -> list[tuple[str, float]]:
@@ -356,7 +357,7 @@ def main() -> None:
     ):
         sys.exit(f"{MASTER.name} is not its own light-transparent-framed variant")
     for name in ("rgb", "cmyk", "monochrome"):
-        shutil.rmtree(HERE / name, ignore_errors=True)
+        shutil.rmtree(OUT / name, ignore_errors=True)
 
     for parts in variants():
         stem = "-".join([PREFIX, *parts])
@@ -371,7 +372,7 @@ def main() -> None:
         used = {e.attrib["class"] for e in variant.iter() if "class" in e.attrib}
         inks = {cls: cmyk(parts[0], cls) for cls in used}
         paths["pdf"].write_bytes(pdf(draw(variant, (1.0, 0.0, 0.0), inks)))
-    sys.stdout.write(f"{3 * len(variants())} files written under {HERE}\n")
+    sys.stdout.write(f"{3 * len(variants())} files written under {OUT}\n")
 
 
 if __name__ == "__main__":
