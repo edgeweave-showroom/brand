@@ -91,9 +91,9 @@ source/generate.py
 
 ## Typography
 
-The wordmark is set in [Sora](https://fonts.google.com/specimen/Sora), the
-tagline in [IBM Plex Sans](https://github.com/IBM/plex) Regular, tracked
-capitals. Both are outlines in the masters: nothing in this repository needs
+The wordmark is set in [Sora](https://fonts.google.com/specimen/Sora)
+ExtraBold, the tagline in [IBM Plex Sans](https://github.com/IBM/plex)
+Regular, tracked capitals. Both are outlines in the masters: nothing in this repository needs
 the fonts, and the outlines are part of the marks. The fonts themselves are
 free under the SIL Open Font License 1.1, which leaves artwork made with
 them, such as these, outside its terms.
