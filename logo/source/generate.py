@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: MIT
 """Generate every variant of the symbol and of the full logo from their masters.
 
-    ./generate.py            rewrite rgb/, cmyk/ and monochrome/ under symbol/ and full/
+    ./generate.py            rewrite ../symbol/ and ../full/ but for their sources
 
-A master (symbol/source/edgeweave-symbol.svg, full/source/edgeweave-logo.svg)
+A master (edgeweave-symbol.svg, edgeweave-logo.svg, next to this script)
 is flattened: every shape is opaque, and where two translucent layers of the
 design overlap, the overlap is a shape of its own. A shape's class is its
 recipe, top layer first: "primary-35-over-primary-25" is the primary ink at
@@ -37,6 +37,7 @@ from functools import partial
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+LOGO = HERE.parent
 PNG_SIZE = 1000
 SVG_NS = "http://www.w3.org/2000/svg"
 KAPPA = 0.5522847498  # Bézier control distance of a quarter circle, in radii
@@ -58,7 +59,7 @@ class Mark:
     @property
     def master(self) -> Path:
         """The master SVG of the mark."""
-        return HERE / self.name / "source" / f"{self.prefix}.svg"
+        return HERE / f"{self.prefix}.svg"
 
 
 MARKS = (
@@ -174,8 +175,8 @@ def outdir(mark: Mark, parts: list[str], fmt: str) -> Path:
     """Directory of a variant's file in the given format."""
     theme = parts[0]
     if theme in MONOCHROME:
-        return HERE / mark.name / "monochrome" / theme
-    return HERE / mark.name / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
+        return LOGO / mark.name / "monochrome" / theme
+    return LOGO / mark.name / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
 
 
 def recipe(cls: str) -> list[tuple[str, float]]:
@@ -418,7 +419,7 @@ def pdf(root: ET.Element, page: tuple[int, int], inks: dict[str, Cmyk]) -> bytes
 def generate(mark: Mark, master: ET.Element, rsvg: str) -> int:
     """Write every variant of a mark; return how many files that is."""
     for name in ("rgb", "cmyk", "monochrome"):
-        shutil.rmtree(HERE / mark.name / name, ignore_errors=True)
+        shutil.rmtree(LOGO / mark.name / name, ignore_errors=True)
     count = 0
     for parts in variants(mark):
         stem = "-".join([mark.prefix, *parts])
@@ -460,7 +461,7 @@ def main() -> None:
         )
 
     count = sum(generate(mark, master, rsvg) for mark, master in masters.items())
-    sys.stdout.write(f"{count} files written under {HERE}\n")
+    sys.stdout.write(f"{count} files written under {LOGO}\n")
 
 
 if __name__ == "__main__":

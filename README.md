@@ -13,9 +13,9 @@ its products, with the tooling that generates them.
 ## Symbol and full logo
 
 Two masters are the single source of every variant:
-[`logo/symbol/source/edgeweave-symbol.svg`](logo/symbol/source/edgeweave-symbol.svg),
+[`logo/source/edgeweave-symbol.svg`](logo/source/edgeweave-symbol.svg),
 the symbol, framed, and
-[`logo/full/source/edgeweave-logo.svg`](logo/full/source/edgeweave-logo.svg),
+[`logo/source/edgeweave-logo.svg`](logo/source/edgeweave-logo.svg),
 the symbol with the wordmark and the tagline. Both are the light theme on a
 transparent background, and both are flattened, so that their tints do not
 change with whatever they are placed on: every shape is opaque, and where two
@@ -35,14 +35,13 @@ the symbol master's. Each variant is a substitution on its master:
 | On a tile   | insert the `background` layer                                          |
 | No frame    | drop the `frame` layer (symbol only)                                   |
 
-[`logo/generate.py`](logo/generate.py) applies them and writes every variant
-next to each `source/`, split by what it is for:
+[`logo/source/generate.py`](logo/source/generate.py) applies them and writes
+every variant, split by what it is for:
 
 ```
 logo/
-├── generate.py
+├── source/            the two masters and the script
 ├── symbol/
-│   ├── source/        edgeweave-symbol.svg
 │   ├── rgb/           screen: SVG and PNG (1000 px wide)
 │   │   ├── light-bg/    edgeweave-symbol-light-{transparent,on-white}[-framed]
 │   │   └── dark-bg/     edgeweave-symbol-dark-{transparent,on-navy}[-framed]
@@ -53,7 +52,6 @@ logo/
 │       ├── black/       edgeweave-symbol-black-transparent[-solid][-framed]
 │       └── white/       edgeweave-symbol-white-transparent[-solid][-framed]
 └── full/              the same tree, 960 × 240 pt, no frame
-    ├── source/        edgeweave-logo.svg
     ├── rgb/           edgeweave-logo-{light,dark}-…
     ├── cmyk/
     └── monochrome/    edgeweave-logo-{black,white}-transparent[-solid]
