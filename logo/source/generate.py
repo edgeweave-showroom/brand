@@ -176,7 +176,7 @@ def outdir(mark: Mark, parts: list[str], fmt: str) -> Path:
     theme = parts[0]
     if theme in MONOCHROME:
         return LOGO / mark.name / "monochrome" / theme
-    return LOGO / mark.name / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
+    return LOGO / mark.name / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}_bg"
 
 
 def recipe(cls: str) -> list[tuple[str, float]]:

@@ -43,11 +43,11 @@ logo/
 ├── source/            the two masters and the script
 ├── symbol/
 │   ├── rgb/           screen: SVG and PNG (1000 px wide)
-│   │   ├── light-bg/    edgeweave-symbol-light-{transparent,on_white}[-framed]
-│   │   └── dark-bg/     edgeweave-symbol-dark-{transparent,on_navy}[-framed]
+│   │   ├── light_bg/    edgeweave-symbol-light-{transparent,on_white}[-framed]
+│   │   └── dark_bg/     edgeweave-symbol-dark-{transparent,on_navy}[-framed]
 │   ├── cmyk/          print: PDF with DeviceCMYK inks, 500 × 500 pt
-│   │   ├── light-bg/    same names, .pdf
-│   │   └── dark-bg/
+│   │   ├── light_bg/    same names, .pdf
+│   │   └── dark_bg/
 │   └── monochrome/    one ink, all three formats
 │       ├── black/       edgeweave-symbol-black-transparent[-solid][-framed]
 │       └── white/       edgeweave-symbol-white-transparent[-solid][-framed]
