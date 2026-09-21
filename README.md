@@ -43,8 +43,8 @@ logo/
 ├── source/            the two masters and the script
 ├── symbol/
 │   ├── rgb/           screen: SVG and PNG (1000 px wide)
-│   │   ├── light-bg/    edgeweave-symbol-light-{transparent,on-white}[-framed]
-│   │   └── dark-bg/     edgeweave-symbol-dark-{transparent,on-navy}[-framed]
+│   │   ├── light-bg/    edgeweave-symbol-light-{transparent,on_white}[-framed]
+│   │   └── dark-bg/     edgeweave-symbol-dark-{transparent,on_navy}[-framed]
 │   ├── cmyk/          print: PDF with DeviceCMYK inks, 500 × 500 pt
 │   │   ├── light-bg/    same names, .pdf
 │   │   └── dark-bg/
@@ -58,7 +58,7 @@ logo/
 ```
 
 A name reads theme, background, options: `-transparent` has nothing behind
-the mark, `-on-white` and `-on-navy` the tile in that ink; `-solid` is the
+the mark, `-on_white` and `-on_navy` the tile in that ink; `-solid` is the
 single-tone version (monochrome only); `-framed` adds the border. The inks,
 sRGB for screen and CMYK for print, are the `INKS` table of the script:
 

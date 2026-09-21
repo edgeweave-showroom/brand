@@ -159,7 +159,7 @@ def variants(mark: Mark) -> list[list[str]]:
     colour = [
         [theme, background, *framed]
         for theme in ("light", "dark")
-        for background in ("transparent", f"on-{THEMES[theme]['background']}")
+        for background in ("transparent", f"on_{THEMES[theme]['background']}")
         for framed in frames
     ]
     mono = [
