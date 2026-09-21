@@ -10,6 +10,9 @@ its products, with the tooling that generates them.
 | `logo/`     | Symbol, full logo and ASCII rendering: SVG masters, exports in every variant, generation scripts   |
 | `LICENSES/` | Licence texts, in the [REUSE](https://reuse.software) layout                                       |
 
+[`logo/README.md`](logo/README.md) explains how the files are organised and
+named, which one to pick, and how they are generated from the two masters.
+
 ## Using the assets
 
 Short version; the full terms are in [LICENSE.md](LICENSE.md).
