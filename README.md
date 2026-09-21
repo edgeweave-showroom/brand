@@ -13,18 +13,22 @@ its products, with the tooling that generates them.
 ## Symbol
 
 [`logo/symbol/edgeweave-symbol.svg`](logo/symbol/edgeweave-symbol.svg) is the
-single source of every symbol variant. It is the framed, light-theme symbol on
-its background; colours are the three classes in its `<style>` block, per-layer
-opacities are `fill-opacity` attributes, and every layer has a stable `id`.
-Each variant is a substitution on it:
+single source of every symbol variant: the light-theme symbol, framed, on a
+transparent background. It is flattened, so that its tints do not change
+with whatever it is placed on: every shape is opaque, and where two
+translucent layers of the design overlap, the overlap is a shape of its own.
+A shape's `class` is its recipe, top layer first; `primary-35-over-primary-25`
+is the primary ink at 35 % over the primary ink at 25 %, composited on the
+theme's background. The `<style>` block gives what each recipe flattens to,
+and every shape has a stable `id`. Each variant is a substitution on it:
 
-| Variant       | Change                                                                  |
-| ------------- | ----------------------------------------------------------------------- |
-| Dark theme    | `.background` → `#0d1829`, `.primary` → `#00dcff`; `.accent` unchanged  |
-| Monochrome    | `.primary` and `.accent` → black or white                               |
-| Solid         | drop every `fill-opacity` and the `glow` layer                          |
-| No frame      | drop the `frame` layer                                                  |
-| Transparent   | drop the `background` layer                                             |
+| Variant     | Change                                                                 |
+| ----------- | ---------------------------------------------------------------------- |
+| Dark theme  | recompute every recipe with cyan and orange on navy                    |
+| Monochrome  | recompute every recipe with black on white, or white on black          |
+| Solid       | every recipe becomes its ink at 100 %; the `glow` shapes are dropped   |
+| On a tile   | insert the `background` layer                                          |
+| No frame    | drop the `frame` layer                                                 |
 
 [`logo/symbol/generate.py`](logo/symbol/generate.py) applies them and writes
 every variant, split by what it is for:
@@ -43,10 +47,9 @@ logo/symbol/
 ```
 
 A name reads theme, background, options: `-transparent` has nothing behind
-the symbol, `-on-white` and `-on-navy` the tile in that ink; `-solid`
-removes the opacities (monochrome only); `-framed` adds the border. The
-inks, sRGB for screen and CMYK for print, are the `INKS` table of the
-script:
+the symbol, `-on-white` and `-on-navy` the tile in that ink; `-solid` is the
+single-tone version (monochrome only); `-framed` adds the border. The inks,
+sRGB for screen and CMYK for print, are the `INKS` table of the script:
 
 | Ink    | Role                     | sRGB      | CMYK             |
 | ------ | ------------------------ | --------- | ---------------- |
@@ -57,11 +60,13 @@ script:
 | white  | background, light theme  | `#ffffff` | 0 / 0 / 0 / 0    |
 | black  | monochrome               | `#000000` | 0 / 0 / 0 / 100  |
 
-The CMYK values are the sRGB ones converted through the U.S. Sheetfed Coated
-v2 profile. The PDFs are written by the script itself, without a colour
-profile, so those numbers reach the press as they are. PNG rendering needs
-`rsvg-convert` from librsvg (`brew install librsvg`, `apt install
-librsvg2-bin`). Edit the master, run the script, commit all of it.
+sRGB tints are computed by compositing. CMYK tints are not: the CMYK values,
+inks and tints alike, are Affinity's conversions through the U.S. Sheetfed
+Coated v2 profile, and the tints are the `PRINT` table of the script.
+Monochrome tints are K alone. The PDFs are written by the script itself,
+without a colour profile, so those numbers reach the press as they are. PNG
+rendering needs `rsvg-convert` from librsvg (`brew install librsvg`,
+`apt install librsvg2-bin`). Edit the master, run the script, commit all of it.
 
 ## Using the assets
 
