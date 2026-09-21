@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Technologies Edgeweave
 # SPDX-License-Identifier: MIT
-"""Generate every symbol variant from the master, edgeweave-symbol.svg.
+"""Generate every variant of the symbol and of the full logo from their masters.
 
-    ./generate.py            rewrite ../rgb/, ../cmyk/ and ../monochrome/
+    ./generate.py            rewrite rgb/, cmyk/ and monochrome/ under symbol/ and full/
 
-The master is flattened: every shape is opaque, and where two translucent
-layers of the design overlap, the overlap is a shape of its own. A shape's
-class is its recipe, top layer first: "primary-35-over-primary-25" is the
-primary ink at 35 % over the primary ink at 25 %, composited on the theme's
-background. Each variant is a substitution on the master: a theme composites
-every recipe with its own inks and rewrites the <style> block, a tile is
-inserted or the frame dropped, and the solid variants keep one ink at 100 %
-and lose the glow. Its name spells all of it out: theme, background, options.
+A master (symbol/source/edgeweave-symbol.svg, full/source/edgeweave-logo.svg)
+is flattened: every shape is opaque, and where two translucent layers of the
+design overlap, the overlap is a shape of its own. A shape's class is its
+recipe, top layer first: "primary-35-over-primary-25" is the primary ink at
+35 % over the primary ink at 25 %, composited on the theme's background. The
+full logo embeds the symbol's shapes under its own placement; they must stay
+the symbol master's, which is checked.
+
+Each variant is a substitution on its master: a theme composites every recipe
+with its own inks and rewrites the <style> block, a tile is inserted or the
+frame dropped, and the solid variants keep one ink at 100 % and lose the
+glow. Its name spells all of it out: theme, background, options.
 
 Screen files go under rgb/: the derived SVG, and a PNG rendered from it by
 rsvg-convert (librsvg). Print files go under cmyk/: a PDF written here from
-the same geometry with DeviceCMYK fills. Those inks cannot be computed, a
-colour profile made them, so the flattened ones are the PRINT table below.
-Monochrome variants are a single ink either way and get all three formats
-under monochrome/.
+the same geometry with DeviceCMYK fills. Recipes of black and white alone are
+composited on the K plate; the coloured ones cannot be, a colour profile made
+them, so they are the PRINT table below. Monochrome variants are a single ink
+either way and get all three formats under monochrome/.
 """
 
 import copy
@@ -28,21 +32,39 @@ import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-MASTER = HERE / "edgeweave-symbol.svg"
-OUT = HERE.parent
-PREFIX = "edgeweave-symbol"
 PNG_SIZE = 1000
-PAGE = 500  # points, the master's viewBox: one SVG unit is one point
 SVG_NS = "http://www.w3.org/2000/svg"
 KAPPA = 0.5522847498  # Bézier control distance of a quarter circle, in radii
 
 Rgb = tuple[float, float, float]
 Cmyk = tuple[int, int, int, int]
 Frame = tuple[float, float, float]  # scale, then x and y offsets
+
+
+@dataclass(frozen=True)
+class Mark:
+    """A mark: its directory under logo/, its file prefix, its PDF page in points."""
+
+    name: str
+    prefix: str
+    page: tuple[int, int]
+    framed: bool  # the master carries a frame, and every variant comes with or without
+
+    @property
+    def master(self) -> Path:
+        """The master SVG of the mark."""
+        return HERE / self.name / "source" / f"{self.prefix}.svg"
+
+
+MARKS = (
+    Mark("symbol", "edgeweave-symbol", (500, 500), framed=True),
+    Mark("full", "edgeweave-logo", (960, 240), framed=False),
+)
 
 # Named inks: sRGB for screen, CMYK percentages for print. The CMYK values are
 # Affinity's conversion of the sRGB ones through the U.S. Sheetfed Coated v2
@@ -59,15 +81,35 @@ INKS: dict[str, tuple[str, Cmyk]] = {
 # Ink of each role, per theme. The background is what the recipes are
 # composited on; the colour themes also offer it as a tile.
 THEMES: dict[str, dict[str, str]] = {
-    "light": {"background": "white", "primary": "teal", "accent": "orange"},
-    "dark": {"background": "navy", "primary": "cyan", "accent": "orange"},
-    "black": {"background": "white", "primary": "black", "accent": "black"},
-    "white": {"background": "black", "primary": "white", "accent": "white"},
+    "light": {
+        "background": "white",
+        "primary": "teal",
+        "accent": "orange",
+        "text": "black",
+    },
+    "dark": {
+        "background": "navy",
+        "primary": "cyan",
+        "accent": "orange",
+        "text": "white",
+    },
+    "black": {
+        "background": "white",
+        "primary": "black",
+        "accent": "black",
+        "text": "black",
+    },
+    "white": {
+        "background": "black",
+        "primary": "white",
+        "accent": "white",
+        "text": "white",
+    },
 }
 MONOCHROME = ("black", "white")
 
-# CMYK of the flattened recipes, per colour theme: Affinity's flattened
-# exports through the same profile. Monochrome recipes are K tints.
+# CMYK of the flattened coloured recipes, per colour theme: Affinity's
+# flattened exports through the same profile.
 PRINT: dict[str, dict[str, Cmyk]] = {
     "light": {
         "primary-25": (18, 0, 7, 0),
@@ -110,29 +152,30 @@ PRINT: dict[str, dict[str, Cmyk]] = {
 }
 
 
-def variants() -> list[list[str]]:
+def variants(mark: Mark) -> list[list[str]]:
     """List the name parts of every variant: theme, background, then options."""
+    frames: list[list[str]] = [[], ["framed"]] if mark.framed else [[]]
     colour = [
         [theme, background, *framed]
         for theme in ("light", "dark")
         for background in ("transparent", f"on-{THEMES[theme]['background']}")
-        for framed in ([], ["framed"])
+        for framed in frames
     ]
     mono = [
         [theme, "transparent", *solid, *framed]
         for theme in MONOCHROME
         for solid in ([], ["solid"])
-        for framed in ([], ["framed"])
+        for framed in frames
     ]
     return colour + mono
 
 
-def outdir(parts: list[str], fmt: str) -> Path:
+def outdir(mark: Mark, parts: list[str], fmt: str) -> Path:
     """Directory of a variant's file in the given format."""
     theme = parts[0]
     if theme in MONOCHROME:
-        return OUT / "monochrome" / theme
-    return OUT / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
+        return HERE / mark.name / "monochrome" / theme
+    return HERE / mark.name / ("cmyk" if fmt == "pdf" else "rgb") / f"{theme}-bg"
 
 
 def recipe(cls: str) -> list[tuple[str, float]]:
@@ -165,12 +208,20 @@ def composite(theme: str, cls: str) -> str:
 
 def cmyk(theme: str, cls: str) -> Cmyk:
     """Flatten a recipe in a theme, as CMYK percentages."""
-    if theme in MONOCHROME:
-        grey = rgb(composite(theme, cls))[0]
-        return (0, 0, 0, round(100 * (1 - grey / 255)))
-    (role, opacity), *below = recipe(cls)
+    layers = recipe(cls)
+    inks = {role: INKS[ink][1] for role, ink in THEMES[theme].items()}
+    if all(THEMES[theme][role] in ("black", "white") for role, _ in layers):
+        colour = [float(v) for v in inks["background"]]
+        for role, opacity in reversed(layers):
+            colour = [
+                opacity * i + (1 - opacity) * c
+                for i, c in zip(inks[role], colour, strict=True)
+            ]
+        c, m, y, k = (round(v) for v in colour)
+        return (c, m, y, k)
+    (role, opacity), *below = layers
     if opacity == 1 and not below:
-        return INKS[THEMES[theme][role]][1]
+        return inks[role]
     return PRINT[theme][cls]
 
 
@@ -182,22 +233,28 @@ def drop(root: ET.Element, ids: set[str]) -> None:
                 parent.remove(child)
 
 
+def box(root: ET.Element) -> tuple[float, float]:
+    """Width and height of a master, from its viewBox."""
+    _, _, width, height = root.attrib["viewBox"].split()
+    return (float(width), float(height))
+
+
 def derive(master: ET.Element, parts: list[str]) -> ET.Element:
     """Return the variant named by parts as a new tree."""
     theme, background, *options = parts
     root = copy.deepcopy(master)
     style = root.find(f"{{{SVG_NS}}}style")
     if style is None:
-        msg = f"{MASTER}: no <style> block"
+        msg = "no <style> block in the master"
         raise ValueError(msg)
 
     if background != "transparent":
-        size = str(PAGE)
+        width, height = box(root)
         attributes = {
             "id": "background",
             "class": "background",
-            "width": size,
-            "height": size,
+            "width": num(width),
+            "height": num(height),
         }
         tile = ET.Element(f"{{{SVG_NS}}}rect", attributes)
         tile.tail = style.tail
@@ -217,14 +274,22 @@ def derive(master: ET.Element, parts: list[str]) -> ET.Element:
 
 
 def svg_text(root: ET.Element) -> str:
-    """Serialise an SVG tree the way the master is written."""
+    """Serialise an SVG tree the way the masters are written."""
     return ET.tostring(root, encoding="unicode") + "\n"
 
 
+def symbol_shapes(root: ET.Element) -> list[tuple[str, dict[str, str]]]:
+    """List the shapes of a master's symbol group, as tags and attributes."""
+    group = root.find(f"{{{SVG_NS}}}g[@id='symbol']")
+    if group is None:
+        msg = "no symbol group in the master"
+        raise ValueError(msg)
+    return [(shape.tag, dict(shape.attrib)) for shape in group]
+
+
 def render_png(svg: Path, out: Path, rsvg: str) -> None:
-    """Rasterise svg into out with rsvg-convert."""
-    size = ["-w", str(PNG_SIZE), "-h", str(PNG_SIZE)]
-    cmd = [rsvg, "-f", "png", *size, "-o", str(out), str(svg)]
+    """Rasterise svg into out with rsvg-convert, PNG_SIZE wide."""
+    cmd = [rsvg, "-f", "png", "-w", str(PNG_SIZE), "-o", str(out), str(svg)]
     subprocess.run(cmd, check=True)  # noqa: S603  # our own command on our own files
 
 
@@ -233,14 +298,14 @@ def num(value: float) -> str:
     return f"{value:.3f}".rstrip("0").rstrip(".") or "0"
 
 
-def to_page(x: float, y: float, frame: Frame) -> str:
-    """Map SVG coordinates through frame onto the page, whose origin is bottom left."""
+def to_page(x: float, y: float, frame: Frame, height: float) -> str:
+    """Map SVG coordinates through frame onto a page of that height, y going up."""
     scale, dx, dy = frame
-    return f"{num(dx + scale * x)} {num(PAGE - dy - scale * y)}"
+    return f"{num(dx + scale * x)} {num(height - dy - scale * y)}"
 
 
 def transform(group: ET.Element) -> Frame:
-    """Read a group's transform attribute; the master only translates then scales."""
+    """Read a group's transform attribute; the masters only translate then scale."""
     value = group.get("transform")
     if value is None:
         return (1.0, 0.0, 0.0)
@@ -288,11 +353,13 @@ def circle_ops(cx: float, cy: float, r: float, pt: partial[str]) -> list[str]:
     return ops
 
 
-def paint(element: ET.Element, frame: Frame, inks: dict[str, Cmyk]) -> list[str]:
+def paint(
+    element: ET.Element, frame: Frame, height: float, inks: dict[str, Cmyk]
+) -> list[str]:
     """PDF operators filling one shape."""
     tag = element.tag.removeprefix(f"{{{SVG_NS}}}")
     at = element.attrib
-    pt = partial(to_page, frame=frame)
+    pt = partial(to_page, frame=frame, height=height)
     if tag == "rect":
         x, y = float(at.get("x", 0)), float(at.get("y", 0))
         w, h = float(at["width"]), float(at["height"])
@@ -307,27 +374,32 @@ def paint(element: ET.Element, frame: Frame, inks: dict[str, Cmyk]) -> list[str]
     return [colour, *shape, "f*" if at.get("fill-rule") == "evenodd" else "f"]
 
 
-def draw(element: ET.Element, frame: Frame, inks: dict[str, Cmyk]) -> list[str]:
+def draw(
+    element: ET.Element, frame: Frame, height: float, inks: dict[str, Cmyk]
+) -> list[str]:
     """PDF operators painting element's children in document order."""
     ops: list[str] = []
     for child in element:
         if child.tag == f"{{{SVG_NS}}}g":
             scale, dx, dy = frame
             s, tx, ty = transform(child)
-            ops += draw(child, (scale * s, dx + scale * tx, dy + scale * ty), inks)
+            inner = (scale * s, dx + scale * tx, dy + scale * ty)
+            ops += draw(child, inner, height, inks)
         else:
-            ops += paint(child, frame, inks)
+            ops += paint(child, frame, height, inks)
     return ops
 
 
-def pdf(ops: list[str]) -> bytes:
-    """Wrap the content stream ops into a one-page PDF."""
+def pdf(root: ET.Element, page: tuple[int, int], inks: dict[str, Cmyk]) -> bytes:
+    """Write a variant as a one-page PDF."""
+    width, height = page
+    ops = draw(root, (width / box(root)[0], 0.0, 0.0), height, inks)
     content = "\n".join(ops)
-    page = f"/MediaBox [0 0 {PAGE} {PAGE}] /Contents 4 0 R"
+    media = f"/MediaBox [0 0 {width} {height}] /Contents 4 0 R"
     objects = [
         "<< /Type /Catalog /Pages 2 0 R >>",
         "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-        f"<< /Type /Page /Parent 2 0 R {page} >>",
+        f"<< /Type /Page /Parent 2 0 R {media} >>",
         f"<< /Length {len(content)} >>\nstream\n{content}\nendstream",
     ]
     out = "%PDF-1.4\n"
@@ -343,27 +415,17 @@ def pdf(ops: list[str]) -> bytes:
     return out.encode("ascii")
 
 
-def main() -> None:
-    """Regenerate the three output directories."""
-    rsvg = shutil.which("rsvg-convert")
-    if rsvg is None:
-        sys.exit("rsvg-convert not found: install librsvg (librsvg2-bin on Debian)")
-
-    ET.register_namespace("", SVG_NS)
-    master = ET.parse(MASTER).getroot()  # noqa: S314  # our own file
-    if (
-        svg_text(derive(master, ["light", "transparent", "framed"]))
-        != MASTER.read_text()
-    ):
-        sys.exit(f"{MASTER.name} is not its own light-transparent-framed variant")
+def generate(mark: Mark, master: ET.Element, rsvg: str) -> int:
+    """Write every variant of a mark; return how many files that is."""
     for name in ("rgb", "cmyk", "monochrome"):
-        shutil.rmtree(OUT / name, ignore_errors=True)
-
-    for parts in variants():
-        stem = "-".join([PREFIX, *parts])
+        shutil.rmtree(HERE / mark.name / name, ignore_errors=True)
+    count = 0
+    for parts in variants(mark):
+        stem = "-".join([mark.prefix, *parts])
         variant = derive(master, parts)
         paths = {
-            fmt: outdir(parts, fmt) / f"{stem}.{fmt}" for fmt in ("svg", "png", "pdf")
+            fmt: outdir(mark, parts, fmt) / f"{stem}.{fmt}"
+            for fmt in ("svg", "png", "pdf")
         }
         for path in paths.values():
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -371,8 +433,34 @@ def main() -> None:
         render_png(paths["svg"], paths["png"], rsvg)
         used = {e.attrib["class"] for e in variant.iter() if "class" in e.attrib}
         inks = {cls: cmyk(parts[0], cls) for cls in used}
-        paths["pdf"].write_bytes(pdf(draw(variant, (1.0, 0.0, 0.0), inks)))
-    sys.stdout.write(f"{3 * len(variants())} files written under {OUT}\n")
+        paths["pdf"].write_bytes(pdf(variant, mark.page, inks))
+        count += len(paths)
+    return count
+
+
+def main() -> None:
+    """Check the masters against themselves and each other, then regenerate."""
+    rsvg = shutil.which("rsvg-convert")
+    if rsvg is None:
+        sys.exit("rsvg-convert not found: install librsvg (librsvg2-bin on Debian)")
+
+    ET.register_namespace("", SVG_NS)
+    masters = {
+        mark: ET.parse(mark.master).getroot()  # noqa: S314  # our own files
+        for mark in MARKS
+    }
+    for mark, master in masters.items():
+        parts = ["light", "transparent", *(["framed"] if mark.framed else [])]
+        if svg_text(derive(master, parts)) != mark.master.read_text():
+            sys.exit(f"{mark.master.name} is not its own {'-'.join(parts)} variant")
+    symbol, full = MARKS
+    if symbol_shapes(masters[full]) != symbol_shapes(masters[symbol]):
+        sys.exit(
+            f"{full.master.name}: its symbol shapes are not {symbol.master.name}'s"
+        )
+
+    count = sum(generate(mark, master, rsvg) for mark, master in masters.items())
+    sys.stdout.write(f"{count} files written under {HERE}\n")
 
 
 if __name__ == "__main__":
