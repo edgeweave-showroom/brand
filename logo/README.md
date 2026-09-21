@@ -89,6 +89,15 @@ brew install librsvg        # or: apt install librsvg2-bin; for the PNGs
 source/generate.py
 ```
 
+## Typography
+
+The wordmark is set in [Sora](https://fonts.google.com/specimen/Sora), the
+tagline in [IBM Plex Sans](https://github.com/IBM/plex) Regular, tracked
+capitals. Both are outlines in the masters: nothing in this repository needs
+the fonts, and the outlines are part of the marks. The fonts themselves are
+free under the SIL Open Font License 1.1, which leaves artwork made with
+them, such as these, outside its terms.
+
 ## ASCII rendering
 
 [`ascii/ascii-logo.py`](ascii/ascii-logo.py) prints the logo in a terminal,
