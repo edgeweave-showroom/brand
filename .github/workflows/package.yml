@@ -1,0 +1,73 @@
+name: Release package
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - logo/symbol/**
+      - logo/full/**
+      - logo/README.md
+      - logo/source/package.py
+      - LICENSES/LicenseRef-Edgeweave-Brand.txt
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag, instead of the next minor (v2.0 for a redesign)
+        required: true
+  pull_request:
+
+permissions:
+  contents: read
+
+# One run at a time per branch: two pushes to main would otherwise both
+# compute the same next version.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - id: version
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            version="$INPUT_VERSION"
+          else
+            last=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 --json tagName --jq '.[].tagName')
+            version=$([ -n "$last" ] && echo "${last%.*}.$(( ${last##*.} + 1 ))" || echo v1.0)
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_VERSION: ${{ inputs.version }}
+      - run: logo/source/package.py "$VERSION"
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: edgeweave-logo
+          path: dist/edgeweave-logo.zip
+
+  release:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: edgeweave-logo
+      - run: >
+          gh release create "$VERSION" edgeweave-logo.zip
+          --target "$GITHUB_SHA" --title "$VERSION" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.build.outputs.version }}
