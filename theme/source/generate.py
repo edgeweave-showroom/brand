@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: MIT
 """Generate the colour theme of every application from palette.toml.
 
-    ./generate.py            rewrite ../terminal/, ../editor/ and ../tool/
+    ./generate.py            rewrite ../ghostty/, ../vim/ and the directory
+                             of every other application
 
 palette.toml, next to this script, holds every colour decision: the palette,
 tested in Ghostty, and how each application maps it. Starship's prompt is the
@@ -35,7 +36,6 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 THEME = HERE.parent
-DIRS = ("terminal", "editor", "tool")
 REPO = "https://github.com/edgeweave-showroom/brand"
 # REUSE-IgnoreStart
 LICENCE = [
@@ -422,18 +422,18 @@ def starship() -> str:
 def main() -> None:
     """Rewrite every theme file."""
     files = {
-        "terminal/ghostty/edgeweave-dark": ghostty(),
-        "terminal/iterm2/edgeweave-dark.itermcolors": iterm2(),
-        "editor/vim/colors/edgeweave.vim": vim(),
-        "editor/vim/autoload/airline/themes/edgeweave.vim": airline(),
-        "editor/vscode/package.json": vscode_manifest(),
-        "editor/vscode/themes/edgeweave-dark-color-theme.json": vscode_theme(),
-        "tool/tmux/edgeweave-dark.conf": tmux(),
-        "tool/tmux/edgeweave-dark-catppuccin.conf": tmux_catppuccin(),
-        "tool/starship/edgeweave-dark-palette-only.toml": starship_palette(),
-        "tool/starship/edgeweave-dark.toml": starship(),
+        "ghostty/edgeweave-dark": ghostty(),
+        "iterm2/edgeweave-dark.itermcolors": iterm2(),
+        "vim/colors/edgeweave.vim": vim(),
+        "vim/autoload/airline/themes/edgeweave.vim": airline(),
+        "vscode/package.json": vscode_manifest(),
+        "vscode/themes/edgeweave-dark-color-theme.json": vscode_theme(),
+        "tmux/edgeweave-dark.conf": tmux(),
+        "tmux/edgeweave-dark-catppuccin.conf": tmux_catppuccin(),
+        "starship/edgeweave-dark-palette-only.toml": starship_palette(),
+        "starship/edgeweave-dark.toml": starship(),
     }
-    for name in DIRS:
+    for name in {Path(path).parts[0] for path in files}:
         shutil.rmtree(THEME / name, ignore_errors=True)
     for path, text in files.items():
         out = THEME / path

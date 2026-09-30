@@ -16,9 +16,9 @@ You may use them, unmodified, to refer to Edgeweave under the terms in
 ## Colour themes: CC BY-ND 4.0
 
 The colour themes for terminals, editors and other tools, that is, the files
-under `theme/terminal/`, `theme/editor/` and `theme/tool/`, and the sources
-they are generated from, `theme/source/palette.toml` and
-`theme/source/starship.toml`, are licensed under
+in the directory of each application under `theme/`, such as `theme/ghostty/`
+or `theme/vim/`, and the sources they are generated from,
+`theme/source/palette.toml` and `theme/source/starship.toml`, are licensed under
 Creative Commons Attribution-NoDerivatives 4.0 International
 ([`LICENSES/CC-BY-ND-4.0.txt`](LICENSES/CC-BY-ND-4.0.txt)). You may use them,
 and share them unmodified, crediting Edgeweave and keeping their licence
@@ -26,7 +26,7 @@ notices. You may adjust them for your own use, but not share an adapted
 version.
 
 The Starship prompt, `theme/source/starship.toml` and the
-`theme/tool/starship/edgeweave-dark.toml` generated from it, also holds the
+`theme/starship/edgeweave-dark.toml` generated from it, also holds the
 symbols of Starship's Nerd Font Symbols preset, copyright 2019-2022 Starship
 Contributors, under the ISC licence ([`LICENSES/ISC.txt`](LICENSES/ISC.txt)),
 which lets you reuse them freely with that notice.

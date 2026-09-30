@@ -1,7 +1,7 @@
 # Edgeweave colour theme
 
-The Edgeweave colours for terminals, editors and the tools that run in them.
-Every file under `terminal/`, `editor/` and `tool/` is generated from
+The Edgeweave colours for terminals, editors and the tools that run in them,
+a directory per application. Every file in them is generated from
 [`source/palette.toml`](source/palette.toml) by
 [`source/generate.py`](source/generate.py); edit the palette, run the script,
 commit all of it. The theme is dark only for now, named
@@ -10,25 +10,25 @@ commit all of it. The theme is dark only for now, named
 ## Picking a file
 
 ```
-terminal/                the 16 ANSI colours, which every program follows
-├── ghostty/               edgeweave-dark
-└── iterm2/                edgeweave-dark.itermcolors
-editor/                  code by role, and the interface
-├── vim/                   colors/edgeweave.vim, for Vim and Neovim, and
-│                          autoload/airline/themes/edgeweave.vim, for vim-airline
-└── vscode/                an extension: package.json, themes/
-tool/                    hex values, the same in any terminal
-├── tmux/                  edgeweave-dark.conf, and edgeweave-dark-catppuccin.conf
-│                          for Catppuccin's plugin
-└── starship/              edgeweave-dark-palette-only.toml, to merge, and
-                           edgeweave-dark.toml, a whole configuration
+ghostty/     edgeweave-dark
+iterm2/      edgeweave-dark.itermcolors
+vim/         colors/edgeweave.vim, for Vim and Neovim, and
+             autoload/airline/themes/edgeweave.vim, for vim-airline
+vscode/      an extension: package.json, themes/
+tmux/        edgeweave-dark.conf, and edgeweave-dark-catppuccin.conf
+             for Catppuccin's plugin
+starship/    edgeweave-dark-palette-only.toml, to merge, and
+             edgeweave-dark.toml, a whole configuration
 ```
 
-Each file opens with its name, how to install it and its licence notice.
+Terminals take the 16 ANSI colours, which every program in them follows.
+Editors colour code by role, and paint their interface. tmux and Starship
+use hex values, the same in any terminal. Each file opens with its name, how
+to install it and its licence notice.
 
 ## Installing
 
-**Ghostty.** Copy `terminal/ghostty/edgeweave-dark` into
+**Ghostty.** Copy `ghostty/edgeweave-dark` into
 `~/.config/ghostty/themes/`, and in the Ghostty config:
 
 ```
@@ -36,12 +36,11 @@ theme = edgeweave-dark
 ```
 
 **iTerm2.** Settings > Profiles > Colors > Color Presets > Import, pick
-`terminal/iterm2/edgeweave-dark.itermcolors`, then choose it in the same menu.
+`iterm2/edgeweave-dark.itermcolors`, then choose it in the same menu.
 
-**Vim and Neovim.** Copy `editor/vim/colors/edgeweave.vim` into
-`~/.vim/colors/` or `~/.config/nvim/colors/`, or load `editor/vim` as a
-plugin; with vim-plug, `Plug 'edgeweave-showroom/brand', { 'rtp':
-'theme/editor/vim' }`. Then:
+**Vim and Neovim.** Copy `vim/colors/edgeweave.vim` into `~/.vim/colors/` or
+`~/.config/nvim/colors/`, or load `vim/` as a plugin; with vim-plug,
+`Plug 'edgeweave-showroom/brand', { 'rtp': 'theme/vim' }`. Then:
 
 ```vim
 set termguicolors
@@ -51,8 +50,8 @@ colorscheme edgeweave
 The scheme is in 24-bit colour only: without `termguicolors`, Vim keeps its
 own colours. Neovim turns it on by itself in terminals that support it.
 
-**vim-airline.** Loaded as a plugin, `editor/vim` brings the airline theme
-along; otherwise copy `editor/vim/autoload/airline/themes/edgeweave.vim` into
+**vim-airline.** Loaded as a plugin, `vim/` brings the airline theme along;
+otherwise copy `vim/autoload/airline/themes/edgeweave.vim` into
 `~/.vim/autoload/airline/themes/` or `~/.config/nvim/autoload/airline/themes/`.
 vim-airline takes it with `colorscheme edgeweave`, unless the vimrc names
 another theme; then name this one instead:
@@ -67,11 +66,11 @@ file name turns amber while it has unsaved changes. Like the scheme, the
 theme is in 24-bit colour only: without `termguicolors`, the status line is
 plain.
 
-**VS Code.** Package `editor/vscode/` as an extension, install it, then pick
+**VS Code.** Package `vscode/` as an extension, install it, then pick
 Edgeweave Dark in Preferences: Color Theme.
 
 ```sh
-cd editor/vscode && npx @vscode/vsce package
+cd vscode && npx @vscode/vsce package
 code --install-extension edgeweave-theme-1.0.0.vsix
 ```
 
@@ -84,23 +83,23 @@ set -as terminal-features ",xterm*:RGB"
 ```
 
 With [Catppuccin's tmux plugin](https://github.com/catppuccin/tmux), source
-`tool/tmux/edgeweave-dark-catppuccin.conf` instead, before the plugin loads:
+`tmux/edgeweave-dark-catppuccin.conf` instead, before the plugin loads:
 Catppuccin keeps colours set before it, and takes these in place of its
 flavour. Its layers match the palette's; its fourteen accents go to the
 nearest of the palette's, several to one. Written for Catppuccin v2.3.1.
 Without the plugin, the file does nothing.
 
 **Starship.** To keep your own prompt, merge
-`tool/starship/edgeweave-dark-palette-only.toml` into
-`~/.config/starship.toml`, its `palette` line before any table. Your styles
-can then name every colour below, `bg:surface1`, `fg:amber`, and those
-written with Starship's own names, `red` or `bright-blue`, take the ANSI
-colours of the theme: an existing configuration follows it unchanged.
+`starship/edgeweave-dark-palette-only.toml` into `~/.config/starship.toml`,
+its `palette` line before any table. Your styles can then name every colour
+below, `bg:surface1`, `fg:amber`, and those written with Starship's own
+names, `red` or `bright-blue`, take the ANSI colours of the theme: an
+existing configuration follows it unchanged.
 
-For the Edgeweave prompt as well, `tool/starship/edgeweave-dark.toml` is a
-whole configuration, palette included, for Starship 1.25 or later: copy it
-to `~/.config/starship.toml`, or point `STARSHIP_CONFIG` at it; an older
-one warns of a module it lacks, `maven` before 1.25, and ignores it. The
+For the Edgeweave prompt as well, `starship/edgeweave-dark.toml` is a whole
+configuration, palette included, for Starship 1.25 or later: copy it to
+`~/.config/starship.toml`, or point `STARSHIP_CONFIG` at it; an older one
+warns of a module it lacks, `maven` before 1.25, and ignores it. The
 prompt symbol turns cerulean, vermilion after a failed command; the words
 between modules, _on_, _via_, _took_, fade to slate. Every module takes its
 symbol from Starship's
