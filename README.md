@@ -39,11 +39,13 @@ Every file is mapped to an SPDX identifier in [`REUSE.toml`](REUSE.toml).
 Scripts are linted and formatted by [ruff](https://docs.astral.sh/ruff/) and
 type-checked by [mypy](https://mypy-lang.org/) in strict mode, with the
 configuration in [`pyproject.toml`](pyproject.toml); each `.py` file carries
-its own SPDX header, since scripts get copied into other tools. CI runs all of
-it on every push. Locally:
+its own SPDX header, since scripts get copied into other tools. The colour
+themes must match their sources: CI generates them again and fails on any
+difference. CI runs all of it on every push. Locally:
 
 ```sh
 uvx reuse lint
 uvx ruff check && uvx ruff format --check
 uvx mypy
+theme/source/generate.py && git diff --exit-code theme/
 ```

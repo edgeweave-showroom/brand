@@ -20,3 +20,8 @@ jobs:
       - run: ruff check
       - run: ruff format --check
       - run: mypy
+      - name: Generated themes match their sources
+        run: |
+          python theme/source/generate.py
+          git add --intent-to-add theme/
+          git diff --exit-code theme/
