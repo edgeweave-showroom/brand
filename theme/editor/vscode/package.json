@@ -1,0 +1,27 @@
+{
+  "name": "edgeweave-theme",
+  "displayName": "Edgeweave Theme",
+  "description": "The Edgeweave colour theme",
+  "version": "1.0.0",
+  "publisher": "edgeweave",
+  "license": "CC-BY-ND-4.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edgeweave-showroom/brand"
+  },
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Edgeweave Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/edgeweave-dark-color-theme.json"
+      }
+    ]
+  }
+}

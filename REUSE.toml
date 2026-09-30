@@ -27,3 +27,17 @@ path = [
 ]
 SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
 SPDX-License-Identifier = "MIT"
+
+# Colour themes and their sources: free to use and share unmodified, with
+# attribution; the Edgeweave name on them stays under the brand terms. After
+# the annotation above, which would otherwise claim the files written in TOML.
+[[annotations]]
+path = [
+  "theme/terminal/**",
+  "theme/editor/**",
+  "theme/tool/**",
+  "theme/source/palette.toml",
+  "theme/source/starship.toml",
+]
+SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
+SPDX-License-Identifier = "CC-BY-ND-4.0"

@@ -1,0 +1,460 @@
+# Edgeweave Dark for Starship
+# A whole configuration: copy to ~/.config/starship.toml, or point
+# STARSHIP_CONFIG at it. Its symbols, from Starship's Nerd Font Symbols
+# preset, need a Nerd Font. To keep a prompt of your own, merge
+# edgeweave-dark-palette-only.toml into it instead.
+#
+# Generated from theme/source/starship.toml and palette.toml, https://github.com/edgeweave-showroom/brand
+# SPDX-FileCopyrightText: 2026 Technologies Edgeweave
+# SPDX-License-Identifier: CC-BY-ND-4.0
+
+palette = "edgeweave-dark"
+
+[character]
+success_symbol = '[❯](bold cerulean)'
+error_symbol = '[❯](bold vermilion)'
+
+[username]
+format = '[$user]($style)[ in](slate) '
+style_user = 'bold text'
+style_root = 'bold red'
+
+[hostname]
+format = '[$ssh_symbol$hostname]($style)[ in](slate) '
+ssh_symbol = ' '
+style = 'bold petrol'
+
+[directory]
+style = 'bold cerulean'
+read_only = ' 󰌾'
+
+[cmd_duration]
+format = '[took](slate) [$duration]($style) '
+style = 'bold slate'
+
+# Every other module whose format has a linking word, as Starship 1.26 writes
+# it, the word in slate; and the symbols of Starship's Nerd Font Symbols
+# preset, https://starship.rs/presets/nerd-font.
+
+[aws]
+format = '[on](slate) [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+symbol = ' '
+
+[azure]
+format = '[on](slate) [$symbol($subscription)]($style) '
+symbol = ' '
+
+[battery]
+full_symbol = '󰁹 '
+charging_symbol = '󰂄 '
+discharging_symbol = '󰂃 '
+unknown_symbol = '󰂑 '
+empty_symbol = '󰂎 '
+
+[buf]
+format = '[with](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[bun]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[c]
+format = '[via](slate) [$symbol($version(-$name) )]($style)'
+symbol = ' '
+
+[cmake]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[cobol]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[conda]
+format = '[via](slate) [$symbol$environment]($style) '
+symbol = ' '
+
+[container]
+symbol = ' '
+
+[cpp]
+format = '[via](slate) [$symbol($version(-$name) )]($style)'
+symbol = ' '
+
+[crystal]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[daml]
+format = '[via](slate) [$symbol($version )]($style)'
+
+[dart]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[deno]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[direnv]
+symbol = ' '
+
+[docker_context]
+format = '[via](slate) [$symbol$context]($style) '
+symbol = ' '
+
+[dotnet]
+format = '[via](slate) [$symbol($version )(🎯 $tfm )]($style)'
+symbol = ' '
+
+[elixir]
+format = '[via](slate) [$symbol($version \(OTP $otp_version\) )]($style)'
+symbol = ' '
+
+[elm]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[erlang]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[fennel]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[fortran]
+format = '[via](slate) [$symbol($version(-$name) )]($style)'
+symbol = ' '
+
+[fossil_branch]
+format = '[on](slate) [$symbol$branch]($style) '
+symbol = ' '
+
+[gcloud]
+format = '[on](slate) [$symbol$account(@$domain)(\($region\))]($style) '
+symbol = '󱇶 '
+
+[git_branch]
+format = '[on](slate) [$symbol$branch(:$remote_branch)]($style) '
+symbol = ' '
+
+[git_commit]
+tag_symbol = '  '
+
+[gleam]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[golang]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[gradle]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[guix_shell]
+format = '[via](slate) [$symbol]($style) '
+symbol = ' '
+
+[haskell]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[haxe]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[helm]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[hg_branch]
+format = '[on](slate) [$symbol$branch(:$topic)]($style) '
+symbol = ' '
+
+[java]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[julia]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[kotlin]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[kubernetes]
+format = '[$symbol$context( \($namespace\))]($style)[ in](slate) '
+symbol = '󱃾 '
+
+[lua]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[maven]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[memory_usage]
+format = '[via](slate) $symbol[$ram( | $swap)]($style) '
+symbol = '󰍛 '
+
+[meson]
+format = '[via](slate) [$symbol$project]($style) '
+symbol = '󰔷 '
+
+[mise]
+format = '[on](slate) [$symbol$health]($style) '
+
+[mojo]
+format = '[with](slate) [$symbol($version )]($style)'
+symbol = '󰈸 '
+
+[nats]
+symbol = ' '
+
+[netns]
+symbol = '󰛳 '
+
+[nim]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[nix_shell]
+format = '[via](slate) [$symbol$state( \($name\))]($style) '
+symbol = ' '
+
+[nodejs]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[ocaml]
+format = '[via](slate) [$symbol($version )(\($switch_indicator$switch_name\) )]($style)'
+symbol = ' '
+
+[odin]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = '󰟢 '
+
+[opa]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[openstack]
+format = '[on](slate) [$symbol$cloud(\($project\))]($style) '
+symbol = ' '
+
+[os.symbols]
+AIX = ' '
+AlmaLinux = ' '
+Alpaquita = ' '
+Alpine = ' '
+ALTLinux = ' '
+Amazon = ' '
+Android = ' '
+AOSC = ' '
+Arch = ' '
+Artix = ' '
+Bluefin = ' '
+CachyOS = ' '
+CentOS = ' '
+Debian = ' '
+DragonFly = ' '
+Elementary = ' '
+Emscripten = ' '
+EndeavourOS = ' '
+Fedora = ' '
+FreeBSD = ' '
+Garuda = ' '
+Gentoo = ' '
+HardenedBSD = '󰞌 '
+Illumos = ' '
+InstantOS = ' '
+Ios = '󰀷 '
+Kali = ' '
+Linux = ' '
+Mabox = ' '
+Macos = ' '
+Manjaro = ' '
+Mariner = ' '
+MidnightBSD = ' '
+Mint = ' '
+NetBSD = ' '
+NixOS = ' '
+Nobara = ' '
+OpenBSD = ' '
+OpenCloudOS = ' '
+openEuler = ' '
+openSUSE = ' '
+OracleLinux = '󰺡 '
+PikaOS = ' '
+Pop = ' '
+Raspbian = ' '
+Redhat = '󱄛 '
+RedHatEnterprise = '󱄛 '
+Redox = '󰀘 '
+RockyLinux = ' '
+Solus = ' '
+SUSE = ' '
+Ubuntu = ' '
+Ultramarine = ' '
+Unknown = ' '
+Uos = ' '
+Void = ' '
+Windows = '󰍲 '
+Zorin = ' '
+
+[package]
+format = '[is](slate) [$symbol$version]($style) '
+symbol = '󰏗 '
+
+[perl]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[php]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[pijul_channel]
+format = '[on](slate) [$symbol$channel]($style) '
+symbol = ' '
+
+[pixi]
+format = '[via](slate) [$symbol($version )(\($environment\) )]($style)'
+symbol = '󰏗 '
+
+[pulumi]
+format = '[via](slate) [$symbol($username@)$stack]($style) '
+symbol = ' '
+
+[purescript]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[python]
+format = '[via](slate) [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+symbol = ' '
+
+[quarto]
+format = '[via](slate) [$symbol($version )]($style)'
+
+[raku]
+format = '[via](slate) [$symbol($version-$vm_version )]($style)'
+symbol = '󱖊 '
+
+[red]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = '󱍼 '
+
+[rlang]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = '󰟔 '
+
+[ruby]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[rust]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = '󱘗 '
+
+[scala]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[shlvl]
+symbol = '󰹍 '
+
+[singularity]
+symbol = ' '
+
+[solidity]
+format = '[via](slate) [$symbol($version)]($style)'
+symbol = ' '
+
+[spack]
+format = '[via](slate) [$symbol$environment]($style) '
+symbol = ' '
+
+[status]
+symbol = ' '
+
+[sudo]
+format = '[as](slate) [$symbol]($style)'
+symbol = ' '
+
+[swift]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[terraform]
+format = '[via](slate) [$symbol$workspace]($style) '
+symbol = ' '
+
+[time]
+format = '[at](slate) [$time]($style) '
+
+[typst]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[vagrant]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[vcsh]
+format = '[vcsh](slate) [$symbol$repo]($style) '
+
+[vlang]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[xmake]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[zig]
+format = '[via](slate) [$symbol($version )]($style)'
+symbol = ' '
+
+[palettes.edgeweave-dark]
+crust = "#080f1a"
+mantle = "#0a1321"
+base = "#0d1829"
+surface0 = "#142137"
+surface1 = "#1b2a45"
+surface2 = "#26395a"
+overlay0 = "#4a5a75"
+dim = "#56657d"
+slate = "#7a879b"
+subtext0 = "#8a8a8a"
+subtext1 = "#bdbfc1"
+text = "#ebebeb"
+petrol = "#17516b"
+cerulean = "#27a6c7"
+vermilion = "#f94f30"
+cyan = "#56c8d8"
+violet = "#9a92de"
+amber = "#d9a55b"
+green = "#8cbf7a"
+# Starship's own names for the ANSI colours, those the palette lacks:
+# a style written with them takes the theme too.
+black = "#1b2a45"
+red = "#f94f30"
+yellow = "#d9a55b"
+blue = "#27a6c7"
+purple = "#9a92de"
+white = "#bdbfc1"
+bright-black = "#4a5a75"
+bright-red = "#ff7a5e"
+bright-green = "#a8d69a"
+bright-yellow = "#e8c080"
+bright-blue = "#5cc0db"
+bright-purple = "#b4aee8"
+bright-cyan = "#85dce8"
+bright-white = "#ffffff"

@@ -1,0 +1,30 @@
+# Edgeweave Dark for Ghostty
+# Copy to ~/.config/ghostty/themes/, then in the Ghostty config:
+#   theme = edgeweave-dark
+#
+# Generated from theme/source/palette.toml, https://github.com/edgeweave-showroom/brand
+# SPDX-FileCopyrightText: 2026 Technologies Edgeweave
+# SPDX-License-Identifier: CC-BY-ND-4.0
+
+background = #0d1829
+foreground = #bdbfc1
+cursor-color = #27a6c7
+cursor-text = #0d1829
+selection-background = #17516b
+selection-foreground = #ebebeb
+palette = 0=#1b2a45
+palette = 1=#f94f30
+palette = 2=#8cbf7a
+palette = 3=#d9a55b
+palette = 4=#27a6c7
+palette = 5=#9a92de
+palette = 6=#56c8d8
+palette = 7=#bdbfc1
+palette = 8=#4a5a75
+palette = 9=#ff7a5e
+palette = 10=#a8d69a
+palette = 11=#e8c080
+palette = 12=#5cc0db
+palette = 13=#b4aee8
+palette = 14=#85dce8
+palette = 15=#ffffff

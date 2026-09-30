@@ -8,10 +8,13 @@ its products, with the tooling that generates them.
 | Path        | Content                                                                                            |
 | ----------- | -------------------------------------------------------------------------------------------------- |
 | `logo/`     | Symbol, full logo and ASCII rendering: SVG masters, exports in every variant, generation scripts   |
+| `theme/`    | Colour theme for terminals, editors and other tools, generated from one palette                    |
 | `LICENSES/` | Licence texts, in the [REUSE](https://reuse.software) layout                                       |
 
 [`logo/README.md`](logo/README.md) explains how the files are organised and
 named, which one to pick, and how they are generated from the two masters.
+[`theme/README.md`](theme/README.md) does the same for the colour theme, and
+says how to install it in each application.
 
 Just the logo files, with the terms of use, are
 [edgeweave-logo.zip](https://github.com/edgeweave-showroom/brand/releases/latest/download/edgeweave-logo.zip)
@@ -26,6 +29,8 @@ Short version; the full terms are in [LICENSE.md](LICENSE.md).
   integrate with it.
 - Do not alter them, do not make them part of your own branding, do not imply
   endorsement.
+- The colour themes are CC BY-ND 4.0: use them and share them unmodified,
+  with credit; do not share adapted versions.
 - Scripts and documentation are MIT; the marks they reproduce are not.
 
 ## Checks

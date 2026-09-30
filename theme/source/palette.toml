@@ -1,0 +1,406 @@
+# SPDX-FileCopyrightText: 2026 Technologies Edgeweave
+# SPDX-License-Identifier: CC-BY-ND-4.0
+#
+# Every colour of the Edgeweave theme, and where each one goes. generate.py,
+# next to this file, writes the themes from it: edit it, run the script,
+# commit all of it.
+#
+# A colour is a palette name, a bright ANSI colour by name, bright-red, or
+# #rrggbb, at an opacity if one follows: "green 20%". Vim, tmux and the terminals flatten it over the background;
+# VS Code blends it. A style is a table of colours, fg, bg and sp (the colour
+# of an undercurl or strikethrough), and an attr: bold, italic, underline,
+# undercurl or strikethrough.
+
+# Tested in Ghostty. Neutral layers from darkest to lightest, tinted towards
+# the navy of the logo, then the brand colours, then accents softened for
+# text on the navy.
+[palette]
+crust = "#080f1a"
+mantle = "#0a1321"
+base = "#0d1829"       # Midnight Navy, the logo's dark background
+surface0 = "#142137"   # midpoint of the brand gradient
+surface1 = "#1b2a45"   # Deep Slate Blue
+surface2 = "#26395a"
+overlay0 = "#4a5a75"
+dim = "#56657d"        # comments
+slate = "#7a879b"      # secondary information
+subtext0 = "#8a8a8a"   # Mid Grey, reserved
+subtext1 = "#bdbfc1"   # text
+text = "#ebebeb"       # Smoke White, emphasis and selection
+petrol = "#17516b"     # Deep Petrol, selection
+cerulean = "#27a6c7"   # cursor, prompt symbol
+vermilion = "#f94f30"  # errors
+cyan = "#56c8d8"
+violet = "#9a92de"
+amber = "#d9a55b"
+green = "#8cbf7a"
+
+# The 16 ANSI colours: black, red, green, yellow, blue, magenta, cyan, white,
+# then their bright versions. Bright black is for autosuggestions, the bright
+# accents are lighter versions of the palette's, bright white is the
+# wordmark's.
+[ansi]
+normal = ["surface1", "vermilion", "green", "amber", "cerulean", "violet", "cyan", "subtext1"]
+bright = ["overlay0", "#ff7a5e", "#a8d69a", "#e8c080", "#5cc0db", "#b4aee8", "#85dce8", "#ffffff"]
+
+# What a terminal colours besides the ANSI colours. Of these, only iTerm2
+# colours bold text and links.
+[terminal]
+background = "base"
+foreground = "subtext1"
+cursor = "cerulean"
+cursor_text = "base"
+selection = "petrol"
+selection_text = "text"
+bold = "text"
+link = "cerulean"
+
+# Code, by role, for every editor.
+[syntax]
+comment = { fg = "dim", attr = "italic" }
+string = { fg = "green" }
+constant = { fg = "amber" }
+special = { fg = "cyan" }        # escapes, regular expressions, tags
+keyword = { fg = "violet" }
+operator = { fg = "slate" }      # and punctuation
+function = { fg = "cerulean" }
+type = { fg = "cyan" }
+variable = { fg = "subtext1" }
+heading = { fg = "cerulean", attr = "bold" }
+link = { fg = "cerulean", attr = "underline" }
+strong = { attr = "bold" }
+emphasis = { attr = "italic" }
+error = { fg = "vermilion" }
+added = { fg = "green" }
+changed = { fg = "amber" }
+removed = { fg = "vermilion" }
+
+# Vim's syntax groups, by role. The groups left out link to one of these.
+[vim.syntax]
+Comment = "comment"
+Constant = "constant"
+String = "string"
+Character = "string"
+Identifier = "variable"
+Function = "function"
+Statement = "keyword"
+Operator = "operator"
+PreProc = "keyword"
+Type = "type"
+Special = "special"
+Delimiter = "operator"
+Underlined = "link"
+Error = "error"
+Title = "heading"
+Added = "added"
+Changed = "changed"
+Removed = "removed"
+
+# Vim's interface, and Neovim's where it differs. Every group Vim or Neovim
+# colours by default, but for debugging, is here, so none of theirs shows
+# through.
+[vim.interface]
+Normal = { fg = "subtext1", bg = "base" }
+NormalFloat = { fg = "subtext1", bg = "mantle" }
+FloatBorder = { fg = "surface2", bg = "mantle" }
+FloatShadow = { bg = "crust" }
+FloatShadowThrough = { bg = "crust" }
+Cursor = { fg = "base", bg = "cerulean" }
+lCursor = { fg = "base", bg = "cerulean" }
+CursorLine = { bg = "surface0" }
+CursorColumn = { bg = "surface0" }
+ColorColumn = { bg = "surface0" }
+CursorLineNr = { fg = "cerulean", attr = "bold" }
+LineNr = { fg = "overlay0" }
+SignColumn = { fg = "overlay0" }
+FoldColumn = { fg = "overlay0" }
+Folded = { fg = "slate", bg = "surface0" }
+Conceal = { fg = "overlay0" }
+NonText = { fg = "surface2" }
+SpecialKey = { fg = "overlay0" }
+Directory = { fg = "cerulean" }
+VertSplit = { fg = "surface2" }
+StatusLine = { fg = "subtext1", bg = "surface1" }
+StatusLineNC = { fg = "dim", bg = "mantle" }
+StatusLineTerm = { fg = "subtext1", bg = "surface1" }
+StatusLineTermNC = { fg = "dim", bg = "mantle" }
+WinBar = { fg = "subtext1", attr = "bold" }
+WinBarNC = { fg = "dim" }
+TabLine = { fg = "slate", bg = "mantle" }
+TabLineFill = { bg = "crust" }
+TabLineSel = { fg = "text", bg = "base", attr = "bold" }
+ToolbarLine = { bg = "surface0" }
+ToolbarButton = { fg = "text", bg = "surface1", attr = "bold" }
+Pmenu = { fg = "subtext1", bg = "surface0" }
+PmenuSel = { fg = "text", bg = "petrol" }
+PmenuSbar = { bg = "surface1" }
+PmenuThumb = { bg = "overlay0" }
+WildMenu = { fg = "base", bg = "cerulean" }
+Visual = { fg = "text", bg = "petrol" }
+VisualNOS = { fg = "text", bg = "petrol" }
+Search = { fg = "base", bg = "amber" }
+CurSearch = { fg = "base", bg = "cerulean" }
+IncSearch = { fg = "base", bg = "cerulean" }
+MatchParen = { fg = "amber", bg = "surface2", attr = "bold" }
+QuickFixLine = { bg = "surface1" }
+ErrorMsg = { fg = "vermilion" }
+WarningMsg = { fg = "amber" }
+ModeMsg = { fg = "text", attr = "bold" }
+MoreMsg = { fg = "green" }
+OkMsg = { fg = "green" }
+Question = { fg = "green" }
+Todo = { fg = "base", bg = "amber", attr = "bold" }
+DiffAdd = { bg = "green 20%" }
+DiffChange = { bg = "cerulean 15%" }
+DiffDelete = { fg = "surface2", bg = "vermilion 20%" }
+DiffText = { bg = "cerulean 35%" }
+SpellBad = { attr = "undercurl", sp = "vermilion" }
+SpellCap = { attr = "undercurl", sp = "amber" }
+SpellLocal = { attr = "undercurl", sp = "cyan" }
+SpellRare = { attr = "undercurl", sp = "violet" }
+DiagnosticError = { fg = "vermilion" }
+DiagnosticWarn = { fg = "amber" }
+DiagnosticInfo = { fg = "cerulean" }
+DiagnosticHint = { fg = "cyan" }
+DiagnosticOk = { fg = "green" }
+DiagnosticUnderlineError = { attr = "undercurl", sp = "vermilion" }
+DiagnosticUnderlineWarn = { attr = "undercurl", sp = "amber" }
+DiagnosticUnderlineInfo = { attr = "undercurl", sp = "cerulean" }
+DiagnosticUnderlineHint = { attr = "undercurl", sp = "cyan" }
+DiagnosticUnderlineOk = { attr = "undercurl", sp = "green" }
+DiagnosticDeprecated = { attr = "strikethrough", sp = "vermilion" }
+
+# vim-airline's status line, by mode. From the left, section a names the mode
+# and b follows it, both in the mode's colour; x, y and z mirror c, b and a
+# on the right.
+[airline.a]
+normal = { fg = "base", bg = "cerulean" }
+insert = { fg = "base", bg = "green" }
+replace = { fg = "base", bg = "vermilion" }
+visual = { fg = "base", bg = "violet" }
+commandline = { fg = "base", bg = "amber" }
+terminal = { fg = "base", bg = "green" }   # keys go to the job, as in insert
+
+[airline.b]
+normal = { fg = "cerulean", bg = "surface0" }
+insert = { fg = "green", bg = "surface0" }
+replace = { fg = "vermilion", bg = "surface0" }
+visual = { fg = "violet", bg = "surface0" }
+commandline = { fg = "amber", bg = "surface0" }
+terminal = { fg = "green", bg = "surface0" }
+
+# The rest of the status line, the same in every mode: c, which holds the
+# file name or a terminal's, and the warning and error checks at the right
+# end. Every section of a window without focus is inactive, and c is
+# modified while the buffer has unsaved changes.
+[airline.sections]
+c = { fg = "subtext1", bg = "mantle" }
+warning = { fg = "base", bg = "amber" }
+error = { fg = "base", bg = "vermilion" }
+inactive = { fg = "dim", bg = "mantle" }
+modified = { fg = "amber", bg = "mantle" }
+
+# The colours airline and its extensions can give a part of a section, over
+# the section's background. Red marks a read-only file.
+[airline.accents]
+red = "vermilion"
+green = "green"
+blue = "cerulean"
+yellow = "amber"
+orange = "amber"
+purple = "violet"
+
+# TextMate scopes, by role. The most specific scope wins, so the quotes of a
+# string are the string's colour and not punctuation's.
+[vscode.syntax]
+comment = ["comment", "punctuation.definition.comment"]
+string = ["string", "punctuation.definition.string"]
+constant = ["constant", "support.constant", "entity.other.attribute-name"]
+special = ["constant.character.escape", "string.regexp", "entity.name.tag"]
+keyword = ["keyword", "storage", "variable.language"]
+operator = ["keyword.operator", "punctuation"]
+function = ["entity.name.function", "support.function"]
+type = [
+  "entity.name.type",
+  "entity.name.class",
+  "entity.other.inherited-class",
+  "support.type",
+  "support.class",
+]
+variable = ["variable"]
+heading = ["markup.heading", "entity.name.section"]
+link = ["markup.underline.link"]
+strong = ["markup.bold"]
+emphasis = ["markup.italic"]
+error = ["invalid"]
+added = ["markup.inserted"]
+changed = ["markup.changed"]
+removed = ["markup.deleted"]
+
+# VS Code's interface. Highlights drawn over text are translucent, so that
+# they do not hide each other.
+[vscode.interface]
+"foreground" = "subtext1"
+"descriptionForeground" = "slate"
+"errorForeground" = "vermilion"
+"focusBorder" = "cerulean"
+"selection.background" = "petrol"
+"widget.shadow" = "crust 50%"
+"textLink.foreground" = "cerulean"
+"textLink.activeForeground" = "cyan"
+"button.background" = "cerulean"
+"button.foreground" = "base"
+"button.hoverBackground" = "cyan"
+"badge.background" = "cerulean"
+"badge.foreground" = "base"
+"input.background" = "surface0"
+"input.border" = "surface2"
+"input.foreground" = "subtext1"
+"input.placeholderForeground" = "dim"
+"dropdown.background" = "surface0"
+"dropdown.border" = "surface2"
+"scrollbarSlider.background" = "overlay0 30%"
+"scrollbarSlider.hoverBackground" = "overlay0 50%"
+"scrollbarSlider.activeBackground" = "overlay0 70%"
+"titleBar.activeBackground" = "crust"
+"titleBar.activeForeground" = "subtext1"
+"titleBar.inactiveBackground" = "crust"
+"titleBar.inactiveForeground" = "dim"
+"activityBar.background" = "crust"
+"activityBar.foreground" = "text"
+"activityBar.inactiveForeground" = "dim"
+"activityBar.activeBorder" = "cerulean"
+"activityBarBadge.background" = "cerulean"
+"activityBarBadge.foreground" = "base"
+"sideBar.background" = "mantle"
+"sideBar.foreground" = "subtext1"
+"sideBarTitle.foreground" = "slate"
+"sideBarSectionHeader.background" = "mantle"
+"sideBarSectionHeader.foreground" = "slate"
+"list.activeSelectionBackground" = "surface1"
+"list.activeSelectionForeground" = "text"
+"list.inactiveSelectionBackground" = "surface0"
+"list.hoverBackground" = "surface0"
+"list.focusOutline" = "cerulean"
+"list.highlightForeground" = "cerulean"
+"editorGroupHeader.tabsBackground" = "mantle"
+"editorGroup.border" = "crust"
+"tab.activeBackground" = "base"
+"tab.activeForeground" = "text"
+"tab.activeBorderTop" = "cerulean"
+"tab.inactiveBackground" = "mantle"
+"tab.inactiveForeground" = "slate"
+"tab.border" = "crust"
+"breadcrumb.foreground" = "slate"
+"editor.background" = "base"
+"editor.foreground" = "subtext1"
+"editorCursor.foreground" = "cerulean"
+"editor.lineHighlightBackground" = "surface0"
+"editor.selectionBackground" = "petrol"
+"editor.inactiveSelectionBackground" = "surface2"
+"editor.selectionHighlightBackground" = "petrol 50%"
+"editor.wordHighlightBackground" = "cerulean 15%"
+"editor.wordHighlightStrongBackground" = "cerulean 25%"
+"editor.findMatchBackground" = "cerulean 40%"
+"editor.findMatchHighlightBackground" = "amber 25%"
+"editorLineNumber.foreground" = "overlay0"
+"editorLineNumber.activeForeground" = "cerulean"
+"editorIndentGuide.background1" = "surface1"
+"editorIndentGuide.activeBackground1" = "surface2"
+"editorWhitespace.foreground" = "surface2"
+"editorRuler.foreground" = "surface1"
+"editorBracketMatch.background" = "amber 20%"
+"editorBracketMatch.border" = "amber"
+"editorError.foreground" = "vermilion"
+"editorWarning.foreground" = "amber"
+"editorInfo.foreground" = "cerulean"
+"editorHint.foreground" = "cyan"
+"editorWidget.background" = "mantle"
+"editorWidget.border" = "surface2"
+"editorSuggestWidget.background" = "mantle"
+"editorSuggestWidget.border" = "surface2"
+"editorSuggestWidget.selectedBackground" = "surface1"
+"editorSuggestWidget.highlightForeground" = "cerulean"
+"editorHoverWidget.background" = "mantle"
+"editorHoverWidget.border" = "surface2"
+"editorGutter.addedBackground" = "green"
+"editorGutter.modifiedBackground" = "amber"
+"editorGutter.deletedBackground" = "vermilion"
+"diffEditor.insertedTextBackground" = "green 20%"
+"diffEditor.removedTextBackground" = "vermilion 20%"
+"panel.background" = "mantle"
+"panel.border" = "surface1"
+"panelTitle.activeForeground" = "text"
+"panelTitle.activeBorder" = "cerulean"
+"panelTitle.inactiveForeground" = "slate"
+"statusBar.background" = "crust"
+"statusBar.foreground" = "slate"
+"statusBar.noFolderBackground" = "crust"
+"statusBar.debuggingBackground" = "amber"
+"statusBar.debuggingForeground" = "base"
+"statusBarItem.remoteBackground" = "petrol"
+"statusBarItem.remoteForeground" = "text"
+"gitDecoration.addedResourceForeground" = "green"
+"gitDecoration.untrackedResourceForeground" = "green"
+"gitDecoration.modifiedResourceForeground" = "amber"
+"gitDecoration.deletedResourceForeground" = "vermilion"
+"gitDecoration.conflictingResourceForeground" = "violet"
+"gitDecoration.ignoredResourceForeground" = "overlay0"
+
+# tmux: the status line, pane borders, messages, copy mode and menus.
+[tmux.styles]
+status-style = { fg = "slate", bg = "mantle" }
+status-left-style = { fg = "cerulean", attr = "bold" }
+window-status-style = { fg = "slate" }
+window-status-current-style = { fg = "text", bg = "surface1", attr = "bold" }
+window-status-activity-style = { fg = "amber" }
+window-status-bell-style = { fg = "vermilion", attr = "bold" }
+pane-border-style = { fg = "surface2" }
+pane-active-border-style = { fg = "cerulean" }
+message-style = { fg = "text", bg = "surface1" }
+message-command-style = { fg = "amber", bg = "surface1" }
+mode-style = { fg = "text", bg = "petrol" }
+copy-mode-match-style = { fg = "base", bg = "amber" }
+copy-mode-current-match-style = { fg = "base", bg = "cerulean" }
+popup-border-style = { fg = "surface2" }
+menu-style = { fg = "subtext1", bg = "surface0" }
+menu-selected-style = { fg = "text", bg = "petrol" }
+menu-border-style = { fg = "surface2" }
+
+# tmux options that take a colour rather than a style.
+[tmux.colours]
+clock-mode-colour = "cerulean"
+display-panes-colour = "overlay0"
+display-panes-active-colour = "cerulean"
+
+# Catppuccin's tmux plugin, for those who use it in place of the styles above:
+# its colours, by its own names, which it keeps when they are set before it
+# loads. Its layers match the palette's; its fourteen accents go to the
+# nearest of the palette's by hue, several to one.
+[tmux.catppuccin]
+bg = "base"
+fg = "subtext1"
+rosewater = "bright-yellow"
+flamingo = "bright-red"
+pink = "bright-magenta"
+mauve = "violet"
+red = "vermilion"
+maroon = "bright-red"
+peach = "bright-red"
+yellow = "amber"
+green = "green"
+teal = "cyan"
+sky = "bright-cyan"
+sapphire = "bright-blue"
+blue = "cerulean"
+lavender = "bright-magenta"
+subtext_1 = "subtext1"
+subtext_0 = "subtext0"
+overlay_2 = "slate"
+overlay_1 = "dim"
+overlay_0 = "overlay0"
+surface_2 = "surface2"
+surface_1 = "surface1"
+surface_0 = "surface0"
+mantle = "mantle"
+crust = "crust"
