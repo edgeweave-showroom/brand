@@ -37,7 +37,20 @@ path = [
   "theme/editor/**",
   "theme/tool/**",
   "theme/source/palette.toml",
-  "theme/source/starship.toml",
 ]
 SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
 SPDX-License-Identifier = "CC-BY-ND-4.0"
+
+# The Starship prompt: a colour theme like the others, with the symbols of
+# Starship's Nerd Font Symbols preset, under Starship's ISC licence. After
+# the annotation above, which would otherwise claim the generated one.
+[[annotations]]
+path = [
+  "theme/source/starship.toml",
+  "theme/tool/starship/edgeweave-dark.toml",
+]
+SPDX-FileCopyrightText = [
+  "2026 Technologies Edgeweave",
+  "2019-2022 Starship Contributors",
+]
+SPDX-License-Identifier = "CC-BY-ND-4.0 AND ISC"

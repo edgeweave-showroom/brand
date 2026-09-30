@@ -92,16 +92,18 @@ Without the plugin, the file does nothing.
 
 **Starship.** To keep your own prompt, merge
 `tool/starship/edgeweave-dark-palette-only.toml` into
-`~/.config/starship.toml`, its `palette` line before any table. Your styles can then name every colour
-below, `bg:surface1`, `fg:amber`, and those written with Starship's own
-names, `red` or `bright-blue`, take the ANSI colours of the theme: an
-existing configuration follows it unchanged.
+`~/.config/starship.toml`, its `palette` line before any table. Your styles
+can then name every colour below, `bg:surface1`, `fg:amber`, and those
+written with Starship's own names, `red` or `bright-blue`, take the ANSI
+colours of the theme: an existing configuration follows it unchanged.
 
 For the Edgeweave prompt as well, `tool/starship/edgeweave-dark.toml` is a
-whole configuration, palette included: copy it to `~/.config/starship.toml`,
-or point `STARSHIP_CONFIG` at it. The prompt symbol turns cerulean,
-vermilion after a failed command; the words between modules, _on_, _via_,
-_took_, fade to slate. Every module takes its symbol from Starship's
+whole configuration, palette included, for Starship 1.25 or later: copy it
+to `~/.config/starship.toml`, or point `STARSHIP_CONFIG` at it; an older
+one warns of a module it lacks, `maven` before 1.25, and ignores it. The
+prompt symbol turns cerulean, vermilion after a failed command; the words
+between modules, _on_, _via_, _took_, fade to slate. Every module takes its
+symbol from Starship's
 [Nerd Font Symbols](https://starship.rs/presets/nerd-font) preset, so the
 terminal needs a [Nerd Font](https://www.nerdfonts.com).
 
@@ -163,7 +165,9 @@ source/generate.py
 
 ## Licence
 
-The theme files, `palette.toml` and `starship.toml` are licensed under CC BY-ND 4.0: use them
-and share them unmodified, with their notice; adjust them for yourself, but do
-not share an adapted version. The Edgeweave name on them stays under the
-brand terms. The script and this README are MIT. [LICENSE.md](../LICENSE.md) has the details.
+The theme files, `palette.toml` and `starship.toml` are licensed under
+CC BY-ND 4.0: use them and share them unmodified, with their notice; adjust
+them for yourself, but do not share an adapted version. The Edgeweave name on
+them stays under the brand terms. The symbols in the Starship prompt are
+Starship's, under the ISC licence. The script and this README are MIT.
+[LICENSE.md](../LICENSE.md) has the details.

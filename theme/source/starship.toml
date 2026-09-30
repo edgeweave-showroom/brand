@@ -1,10 +1,12 @@
 # SPDX-FileCopyrightText: 2026 Technologies Edgeweave
-# SPDX-License-Identifier: CC-BY-ND-4.0
+# SPDX-FileCopyrightText: 2019-2022 Starship Contributors
+# SPDX-License-Identifier: CC-BY-ND-4.0 AND ISC
 #
 # The Edgeweave prompt for Starship, without its palette. generate.py, next to
 # this file, writes it to ../tool/starship/edgeweave-dark.toml, the palette
 # after it; this comment stays out. The palette travels with the prompt, so
-# its colours go by name here rather than in palette.toml.
+# its colours go by name here rather than in palette.toml. The symbols are
+# Starship's, under the ISC licence.
 
 [character]
 success_symbol = '[❯](bold cerulean)'

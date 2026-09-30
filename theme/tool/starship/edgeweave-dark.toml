@@ -1,12 +1,14 @@
 # Edgeweave Dark for Starship
-# A whole configuration: copy to ~/.config/starship.toml, or point
-# STARSHIP_CONFIG at it. Its symbols, from Starship's Nerd Font Symbols
-# preset, need a Nerd Font. To keep a prompt of your own, merge
-# edgeweave-dark-palette-only.toml into it instead.
+# A whole configuration, for Starship 1.25 or later: copy to
+# ~/.config/starship.toml, or point STARSHIP_CONFIG at it. Its symbols,
+# Starship's Nerd Font Symbols preset under the ISC licence, need a Nerd
+# Font. To keep a prompt of your own, merge edgeweave-dark-palette-only.toml
+# into it instead.
 #
 # Generated from theme/source/starship.toml and palette.toml, https://github.com/edgeweave-showroom/brand
 # SPDX-FileCopyrightText: 2026 Technologies Edgeweave
-# SPDX-License-Identifier: CC-BY-ND-4.0
+# SPDX-FileCopyrightText: 2019-2022 Starship Contributors
+# SPDX-License-Identifier: CC-BY-ND-4.0 AND ISC
 
 palette = "edgeweave-dark"
 

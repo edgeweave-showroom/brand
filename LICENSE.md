@@ -25,6 +25,12 @@ and share them unmodified, crediting Edgeweave and keeping their licence
 notices. You may adjust them for your own use, but not share an adapted
 version.
 
+The Starship prompt, `theme/source/starship.toml` and the
+`theme/tool/starship/edgeweave-dark.toml` generated from it, also holds the
+symbols of Starship's Nerd Font Symbols preset, copyright 2019-2022 Starship
+Contributors, under the ISC licence ([`LICENSES/ISC.txt`](LICENSES/ISC.txt)),
+which lets you reuse them freely with that notice.
+
 The licence grants no trademark rights (its section 2(b)(2)). The Edgeweave
 name the themes carry stays under the brand terms: a theme of your own may
 not be called Edgeweave.

@@ -42,6 +42,11 @@ LICENCE = [
     "SPDX-FileCopyrightText: 2026 Technologies Edgeweave",
     "SPDX-License-Identifier: CC-BY-ND-4.0",
 ]
+STARSHIP_LICENCE = [
+    "SPDX-FileCopyrightText: 2026 Technologies Edgeweave",
+    "SPDX-FileCopyrightText: 2019-2022 Starship Contributors",
+    "SPDX-License-Identifier: CC-BY-ND-4.0 AND ISC",
+]
 # REUSE-IgnoreEnd
 
 ANSI_NAMES = ("Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White")
@@ -111,14 +116,19 @@ def colour(value: str, *, blend: bool = False) -> str:
     return "#" + "".join(f"{round(c):02x}" for c in channels)
 
 
-def header(title: str, usage: list[str], source: str = "palette.toml") -> list[str]:
+def header(
+    title: str,
+    usage: list[str],
+    source: str = "palette.toml",
+    licence: list[str] = LICENCE,
+) -> list[str]:
     """Lines opening a file: its name, how to install it, its origin and licence."""
     return [
         title,
         *usage,
         "",
         f"Generated from theme/source/{source}, {REPO}",
-        *LICENCE,
+        *licence,
     ]
 
 
@@ -397,13 +407,15 @@ def starship() -> str:
     _, prompt = source.split("\n\n", 1)
     lines = ['palette = "edgeweave-dark"', "", prompt.strip(), "", *starship_colours()]
     usage = [
-        "A whole configuration: copy to ~/.config/starship.toml, or point",
-        "STARSHIP_CONFIG at it. Its symbols, from Starship's Nerd Font Symbols",
-        "preset, need a Nerd Font. To keep a prompt of your own, merge",
-        "edgeweave-dark-palette-only.toml into it instead.",
+        "A whole configuration, for Starship 1.25 or later: copy to",
+        "~/.config/starship.toml, or point STARSHIP_CONFIG at it. Its symbols,",
+        "Starship's Nerd Font Symbols preset under the ISC licence, need a Nerd",
+        "Font. To keep a prompt of your own, merge edgeweave-dark-palette-only.toml",
+        "into it instead.",
     ]
+    title = "Edgeweave Dark for Starship"
     sources = "starship.toml and palette.toml"
-    heading = commented(header("Edgeweave Dark for Starship", usage, sources), "#")
+    heading = commented(header(title, usage, sources, STARSHIP_LICENCE), "#")
     return heading + "\n" + "\n".join(lines) + "\n"
 
 
