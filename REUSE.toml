@@ -27,3 +27,32 @@ path = [
 ]
 SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
 SPDX-License-Identifier = "MIT"
+
+# Colour themes and their sources: free to use and share unmodified, with
+# attribution; the Edgeweave name on them stays under the brand terms. After
+# the annotation above, which would otherwise claim the files written in TOML.
+[[annotations]]
+path = "theme/**"
+SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
+SPDX-License-Identifier = "CC-BY-ND-4.0"
+
+# The Starship prompt: a colour theme like the others, with the symbols of
+# Starship's Nerd Font Symbols preset, under Starship's ISC licence. After
+# the annotation above, which would otherwise claim the generated one.
+[[annotations]]
+path = [
+  "theme/source/starship.toml",
+  "theme/starship/edgeweave-dark.toml",
+]
+SPDX-FileCopyrightText = [
+  "2026 Technologies Edgeweave",
+  "2019-2022 Starship Contributors",
+]
+SPDX-License-Identifier = "CC-BY-ND-4.0 AND ISC"
+
+# The theme's script and documentation, which the colour themes' annotation
+# would otherwise claim.
+[[annotations]]
+path = ["theme/**/*.py", "theme/**/*.md"]
+SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
+SPDX-License-Identifier = "MIT"

@@ -15,8 +15,13 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version: "3.14"
       - run: python -m pip install ruff==0.16.8 mypy==2.3.1
       - run: ruff check
       - run: ruff format --check
       - run: mypy
+      - name: Generated themes match their sources
+        run: |
+          python theme/source/generate.py
+          git add --intent-to-add theme/
+          git diff --exit-code theme/

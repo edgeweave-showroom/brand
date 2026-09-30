@@ -1,0 +1,47 @@
+# Edgeweave Dark palette for Starship
+# Merge into ~/.config/starship.toml, the palette line before any table.
+# Styles can then name its colours, bg:surface1, fg:amber, and Starship's
+# own names, red or bright-blue, take the ANSI colours of the theme.
+#
+# Generated from theme/source/palette.toml, https://github.com/edgeweave-showroom/brand
+# SPDX-FileCopyrightText: 2026 Technologies Edgeweave
+# SPDX-License-Identifier: CC-BY-ND-4.0
+
+palette = "edgeweave-dark"
+
+[palettes.edgeweave-dark]
+crust = "#080f1a"
+mantle = "#0a1321"
+base = "#0d1829"
+surface0 = "#142137"
+surface1 = "#1b2a45"
+surface2 = "#26395a"
+overlay0 = "#4a5a75"
+dim = "#56657d"
+slate = "#7a879b"
+subtext0 = "#8a8a8a"
+subtext1 = "#bdbfc1"
+text = "#ebebeb"
+petrol = "#17516b"
+cerulean = "#27a6c7"
+vermilion = "#f94f30"
+cyan = "#56c8d8"
+violet = "#9a92de"
+amber = "#d9a55b"
+green = "#8cbf7a"
+# Starship's own names for the ANSI colours, those the palette lacks:
+# a style written with them takes the theme too.
+black = "#1b2a45"
+red = "#f94f30"
+yellow = "#d9a55b"
+blue = "#27a6c7"
+purple = "#9a92de"
+white = "#bdbfc1"
+bright-black = "#4a5a75"
+bright-red = "#ff7a5e"
+bright-green = "#a8d69a"
+bright-yellow = "#e8c080"
+bright-blue = "#5cc0db"
+bright-purple = "#b4aee8"
+bright-cyan = "#85dce8"
+bright-white = "#ffffff"
