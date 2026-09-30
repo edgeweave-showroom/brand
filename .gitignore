@@ -13,3 +13,6 @@ node_modules/
 
 # Release package
 dist/
+
+# VS Code extension, packaged by hand
+*.vsix

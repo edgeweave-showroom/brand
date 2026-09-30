@@ -47,6 +47,17 @@ STARSHIP_LICENCE = [
     "SPDX-FileCopyrightText: 2019-2022 Starship Contributors",
     "SPDX-License-Identifier: CC-BY-ND-4.0 AND ISC",
 ]
+VSCODE_NOTICE = [
+    "Edgeweave Theme for VS Code",
+    "Copyright 2026 Technologies Edgeweave",
+    REPO,
+    "",
+    "Licensed under Creative Commons Attribution-NoDerivatives 4.0 International,",
+    "whose text follows: use the theme and share it unmodified, crediting",
+    "Edgeweave and keeping this notice. The licence grants no trademark rights:",
+    "the Edgeweave name stays under the brand terms,",
+    f"{REPO}/blob/main/LICENSE.md.",
+]
 # REUSE-IgnoreEnd
 
 ANSI_NAMES = ("Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White")
@@ -283,6 +294,7 @@ def vscode_manifest() -> str:
         "repository": {"type": "git", "url": REPO},
         "engines": {"vscode": "^1.70.0"},
         "categories": ["Themes"],
+        "files": ["themes", "LICENSE"],
         "contributes": {
             "themes": [
                 {
@@ -294,6 +306,12 @@ def vscode_manifest() -> str:
         },
     }
     return json.dumps(manifest, indent=2) + "\n"
+
+
+def vscode_licence() -> str:
+    """LICENSE of the VS Code extension: its notice, then CC BY-ND 4.0 in full."""
+    text = (THEME.parent / "LICENSES" / "CC-BY-ND-4.0.txt").read_text(encoding="utf-8")
+    return "".join(f"{line}\n" for line in VSCODE_NOTICE) + "\n" + text
 
 
 def vscode_theme() -> str:
@@ -427,6 +445,7 @@ def main() -> None:
         "vim/colors/edgeweave.vim": vim(),
         "vim/autoload/airline/themes/edgeweave.vim": airline(),
         "vscode/package.json": vscode_manifest(),
+        "vscode/LICENSE": vscode_licence(),
         "vscode/themes/edgeweave-dark-color-theme.json": vscode_theme(),
         "tmux/edgeweave-dark.conf": tmux(),
         "tmux/edgeweave-dark-catppuccin.conf": tmux_catppuccin(),

@@ -14,7 +14,7 @@ ghostty/     edgeweave-dark
 iterm2/      edgeweave-dark.itermcolors
 vim/         colors/edgeweave.vim, for Vim and Neovim, and
              autoload/airline/themes/edgeweave.vim, for vim-airline
-vscode/      an extension: package.json, themes/
+vscode/      an extension: package.json, themes/, LICENSE
 tmux/        edgeweave-dark.conf, and edgeweave-dark-catppuccin.conf
              for Catppuccin's plugin
 starship/    edgeweave-dark-palette-only.toml, to merge, and

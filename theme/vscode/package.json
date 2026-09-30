@@ -15,6 +15,10 @@
   "categories": [
     "Themes"
   ],
+  "files": [
+    "themes",
+    "LICENSE"
+  ],
   "contributes": {
     "themes": [
       {
