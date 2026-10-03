@@ -6,6 +6,7 @@ on:
     paths:
       - logo/symbol/**
       - logo/full/**
+      - logo/wordmark/**
       - logo/README.md
       - logo/source/package.py
       - LICENSES/LicenseRef-Edgeweave-Brand.txt

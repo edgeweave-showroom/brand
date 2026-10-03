@@ -1,10 +1,11 @@
 # Edgeweave logo
 
-The symbol, the full logo (symbol, wordmark and tagline) and an ASCII
-rendering for terminals. Every file under `symbol/` and `full/` is generated
-from the two masters in `source/`; edit a master, run the script, commit all
-of it. The same two directories, with the terms of use, are the zip attached
-to every [release](https://github.com/edgeweave-showroom/brand/releases).
+The symbol, the full logo (symbol, wordmark and tagline), the wordmark alone
+and an ASCII rendering for terminals. Every file under `symbol/`, `full/` and
+`wordmark/` is generated from the three masters in `source/`; edit a master,
+run the script, commit all of it. The same three directories, with the terms
+of use, are the zip attached to every
+[release](https://github.com/edgeweave-showroom/brand/releases).
 
 ## Picking a file
 
@@ -20,6 +21,10 @@ symbol/                          the symbol alone
     ├── black/                     for light backgrounds
     └── white/                     for dark backgrounds
 full/                            the same tree for the full logo
+wordmark/                        the name alone, one ink: monochrome/ only
+└── monochrome/
+    ├── black/
+    └── white/
 ```
 
 A file name is a list of tags, separated by hyphens, and spells everything
@@ -28,32 +33,37 @@ out: `edgeweave-symbol-light-on_white-framed.svg`.
 | Tag                         | Meaning                                                        |
 | --------------------------- | -------------------------------------------------------------- |
 | `symbol`, `logo`            | the symbol alone, or the full logo                             |
+| `wordmark`                  | the name alone                                                 |
 | `light`, `dark`             | colour theme, for light or dark backgrounds                    |
 | `black`, `white`            | monochrome, for light or dark backgrounds                      |
 | `transparent`               | nothing behind the mark                                        |
 | `on_white`, `on_navy`       | the theme's tile behind the mark, in that ink                  |
-| `solid`                     | single tone, no tints (monochrome only)                        |
+| `solid`                     | single tone, no tints (monochrome symbol and full logo)        |
 | `framed`                    | with the border (symbol only)                                  |
 
 The marks are flattened: their tints are fixed colours, not transparency, so
 they look the same on any background of the right kind. Sizes: the symbol is
 500 × 500 units (500 × 500 pt in PDF), the full logo 4000 × 1000 units
-(960 × 240 pt).
+(960 × 240 pt), the wordmark 3000 × 700 units (720 × 168 pt), at the scale it
+has in the full logo.
 
 ## Sources and generation
 
 [`source/edgeweave-symbol.svg`](source/edgeweave-symbol.svg), the symbol,
-framed, and [`source/edgeweave-logo.svg`](source/edgeweave-logo.svg), the
-full logo, are the single source of every variant. Both are the light theme
-on a transparent background, and both are flattened: every shape is opaque,
-and where two translucent layers of the design overlap, the overlap is a
-shape of its own. A shape's `class` is its recipe, top layer first;
+framed, [`source/edgeweave-logo.svg`](source/edgeweave-logo.svg), the full
+logo, and [`source/edgeweave-wordmark.svg`](source/edgeweave-wordmark.svg),
+the wordmark centred on its own canvas, are the single source of every
+variant. All three are the light theme on a transparent background, and all
+three are flattened: every shape is opaque, and where two translucent layers
+of the design overlap, the overlap is a shape of its own. A shape's `class`
+is its recipe, top layer first;
 `primary-35-over-primary-25` is the primary ink at 35 % over the primary ink
 at 25 %, composited on the theme's background. The `<style>` block gives what
 each recipe flattens to, and every shape has a stable `id`. The full logo
-embeds the symbol's shapes under its own placement; the generator refuses to
-run if they differ from the symbol master's. Each variant is a substitution
-on its master:
+embeds the symbol's shapes, and the wordmark master the full logo's wordmark,
+each under its own placement; the generator refuses to run if they differ.
+The wordmark, a single ink already, only comes in monochrome, and not solid.
+Each variant is a substitution on its master:
 
 | Variant     | Change                                                                 |
 | ----------- | ---------------------------------------------------------------------- |
@@ -89,8 +99,8 @@ source/generate.py
 
 ## Release package
 
-[`source/package.py`](source/package.py) bundles `symbol/`, `full/`, the
-terms of use and the "Picking a file" section above into
+[`source/package.py`](source/package.py) bundles `symbol/`, `full/`,
+`wordmark/`, the terms of use and the "Picking a file" section above into
 `dist/edgeweave-logo.zip`, for people who will not clone the repository. CI
 builds it on every pull request, and every push to `main` that changes any of
 its content publishes a GitHub release with it, numbered after the previous

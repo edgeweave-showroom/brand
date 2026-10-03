@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Technologies Edgeweave
 # SPDX-License-Identifier: MIT
-"""Generate every variant of the symbol and of the full logo from their masters.
+"""Generate every variant of the symbol, the full logo and the wordmark.
 
-    ./generate.py            rewrite ../symbol/ and ../full/ but for their sources
+    ./generate.py            rewrite ../symbol/, ../full/ and ../wordmark/
 
-A master (edgeweave-symbol.svg, edgeweave-logo.svg, next to this script)
-is flattened: every shape is opaque, and where two translucent layers of the
-design overlap, the overlap is a shape of its own. A shape's class is its
-recipe, top layer first: "primary-35-over-primary-25" is the primary ink at
-35 % over the primary ink at 25 %, composited on the theme's background. The
-full logo embeds the symbol's shapes under its own placement; they must stay
-the symbol master's, which is checked.
+A master (edgeweave-symbol.svg, edgeweave-logo.svg, edgeweave-wordmark.svg,
+next to this script) is flattened: every shape is opaque, and where two
+translucent layers of the design overlap, the overlap is a shape of its own. A
+shape's class is its recipe, top layer first: "primary-35-over-primary-25" is
+the primary ink at 35 % over the primary ink at 25 %, composited on the
+theme's background. The full logo embeds the symbol's shapes, and the
+wordmark master the full logo's wordmark, each under its own placement; they
+must stay the same, which is checked.
 
 Each variant is a substitution on its master: a theme composites every recipe
 with its own inks and rewrites the <style> block, a tile is inserted or the
@@ -23,7 +24,8 @@ rsvg-convert (librsvg). Print files go under cmyk/: a PDF written here from
 the same geometry with DeviceCMYK fills. Recipes of black and white alone are
 composited on the K plate; the coloured ones cannot be, a colour profile made
 them, so they are the PRINT table below. Monochrome variants are a single ink
-either way and get all three formats under monochrome/.
+either way and get all three formats under monochrome/. The wordmark is a
+single ink already, so it only comes in monochrome, and not solid.
 """
 
 import copy
@@ -55,6 +57,7 @@ class Mark:
     prefix: str
     page: tuple[int, int]
     framed: bool  # the master carries a frame, and every variant comes with or without
+    tinted: bool  # has colours and tints, so colour themes and solid variants too
 
     @property
     def master(self) -> Path:
@@ -63,8 +66,9 @@ class Mark:
 
 
 MARKS = (
-    Mark("symbol", "edgeweave-symbol", (500, 500), framed=True),
-    Mark("full", "edgeweave-logo", (960, 240), framed=False),
+    Mark("symbol", "edgeweave-symbol", (500, 500), framed=True, tinted=True),
+    Mark("full", "edgeweave-logo", (960, 240), framed=False, tinted=True),
+    Mark("wordmark", "edgeweave-wordmark", (720, 168), framed=False, tinted=False),
 )
 
 # Named inks: sRGB for screen, CMYK percentages for print. The CMYK values are
@@ -156,16 +160,17 @@ PRINT: dict[str, dict[str, Cmyk]] = {
 def variants(mark: Mark) -> list[list[str]]:
     """List the name parts of every variant: theme, background, then options."""
     frames: list[list[str]] = [[], ["framed"]] if mark.framed else [[]]
+    solids: list[list[str]] = [[], ["solid"]] if mark.tinted else [[]]
     colour = [
         [theme, background, *framed]
-        for theme in ("light", "dark")
+        for theme in (("light", "dark") if mark.tinted else ())
         for background in ("transparent", f"on_{THEMES[theme]['background']}")
         for framed in frames
     ]
     mono = [
         [theme, "transparent", *solid, *framed]
         for theme in MONOCHROME
-        for solid in ([], ["solid"])
+        for solid in solids
         for framed in frames
     ]
     return colour + mono
@@ -279,12 +284,13 @@ def svg_text(root: ET.Element) -> str:
     return ET.tostring(root, encoding="unicode") + "\n"
 
 
-def symbol_shapes(root: ET.Element) -> list[tuple[str, dict[str, str]]]:
-    """List the shapes of a master's symbol group, as tags and attributes."""
-    group = root.find(f"{{{SVG_NS}}}g[@id='symbol']")
-    if group is None:
-        msg = "no symbol group in the master"
+def shapes(root: ET.Element, part: str) -> list[tuple[str, dict[str, str]]]:
+    """List the shapes of a part of a master, a shape or a group, with attributes."""
+    element = root.find(f".//*[@id='{part}']")
+    if element is None:
+        msg = f"no {part} in the master"
         raise ValueError(msg)
+    group = list(element) if element.tag == f"{{{SVG_NS}}}g" else [element]
     return [(shape.tag, dict(shape.attrib)) for shape in group]
 
 
@@ -306,15 +312,16 @@ def to_page(x: float, y: float, frame: Frame, height: float) -> str:
 
 
 def transform(group: ET.Element) -> Frame:
-    """Read a group's transform attribute; the masters only translate then scale."""
+    """Read a group's transform attribute; the masters translate, then may scale."""
     value = group.get("transform")
     if value is None:
         return (1.0, 0.0, 0.0)
-    match = re.fullmatch(r"translate\(([-\d.]+) ([-\d.]+)\) scale\(([\d.]+)\)", value)
+    pattern = r"translate\(([-\d.]+) ([-\d.]+)\)(?: scale\(([\d.]+)\))?"
+    match = re.fullmatch(pattern, value)
     if match is None:
         msg = f"unsupported transform: {value}"
         raise ValueError(msg)
-    return (float(match[3]), float(match[1]), float(match[2]))
+    return (float(match[3] or 1), float(match[1]), float(match[2]))
 
 
 def path_ops(d: str, pt: partial[str]) -> list[str]:
@@ -454,11 +461,10 @@ def main() -> None:
         parts = ["light", "transparent", *(["framed"] if mark.framed else [])]
         if svg_text(derive(master, parts)) != mark.master.read_text():
             sys.exit(f"{mark.master.name} is not its own {'-'.join(parts)} variant")
-    symbol, full = MARKS
-    if symbol_shapes(masters[full]) != symbol_shapes(masters[symbol]):
-        sys.exit(
-            f"{full.master.name}: its symbol shapes are not {symbol.master.name}'s"
-        )
+    symbol, full, wordmark = MARKS
+    for mark in (symbol, wordmark):
+        if shapes(masters[full], mark.name) != shapes(masters[mark], mark.name):
+            sys.exit(f"{full.master.name}: its {mark.name} is not {mark.master.name}'s")
 
     count = sum(generate(mark, master, rsvg) for mark, master in masters.items())
     sys.stdout.write(f"{count} files written under {LOGO}\n")
