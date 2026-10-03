@@ -5,13 +5,14 @@
 
     ./package.py v1.0        write dist/edgeweave-logo.zip, for release v1.0
 
-The zip unpacks to a single edgeweave-logo/ directory: symbol/ and full/ as
-they are under logo/, the terms of use as LICENSE.txt, and a README made of a
-short header and the "Picking a file" section of logo/README.md. Sources,
-generator and ASCII rendering stay in the repository; the zip is the finished
-marks only. CI builds it on every pull request, and publishes a release with
-it whenever a push to main changes any of its content, so the latest one is
-always at releases/latest/download/edgeweave-logo.zip.
+The zip unpacks to a single edgeweave-logo/ directory: symbol/, full/ and
+wordmark/ as they are under logo/, the terms of use as LICENSE.txt, and a
+README made of a short header and the "Picking a file" section of
+logo/README.md. Sources, generator and ASCII rendering stay in the
+repository; the zip is the finished marks only. CI builds it on every pull
+request, and publishes a release with it whenever a push to main changes any
+of its content, so the latest one is always at
+releases/latest/download/edgeweave-logo.zip.
 """
 
 import argparse
@@ -23,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 LOGO = HERE.parent
 ROOT = LOGO.parent
 NAME = "edgeweave-logo"
-DIRS = ("symbol", "full")
+DIRS = ("symbol", "full", "wordmark")
 TERMS = ROOT / "LICENSES" / "LicenseRef-Edgeweave-Brand.txt"
 GUIDE = "Picking a file"
 REPO = "https://github.com/edgeweave-showroom/brand"
@@ -31,8 +32,8 @@ REPO = "https://github.com/edgeweave-showroom/brand"
 HEADER = """\
 # Edgeweave logo
 
-Release {version}: the symbol and the full logo of Edgeweave, in every
-variant. Sources, generator and later releases are at
+Release {version}: the symbol, the full logo and the wordmark of
+Edgeweave, in every variant. Sources, generator and later releases are at
 {repo}.
 
 ## Terms of use

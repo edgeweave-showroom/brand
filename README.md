@@ -7,12 +7,12 @@ its products, with the tooling that generates them.
 
 | Path        | Content                                                                                            |
 | ----------- | -------------------------------------------------------------------------------------------------- |
-| `logo/`     | Symbol, full logo and ASCII rendering: SVG masters, exports in every variant, generation scripts   |
+| `logo/`     | Symbol, full logo, wordmark and ASCII rendering: SVG masters, exports, generation scripts          |
 | `theme/`    | Colour theme for terminals, editors and other tools, generated from one palette                    |
 | `LICENSES/` | Licence texts, in the [REUSE](https://reuse.software) layout                                       |
 
 [`logo/README.md`](logo/README.md) explains how the files are organised and
-named, which one to pick, and how they are generated from the two masters.
+named, which one to pick, and how they are generated from the three masters.
 [`theme/README.md`](theme/README.md) does the same for the colour theme, and
 says how to install it in each application.
 
