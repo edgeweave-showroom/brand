@@ -1,0 +1,16 @@
+version: 2
+
+# The actions only: Renovate proposes Catppuccin's releases, and nothing else
+# here has a manifest.
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: CI
