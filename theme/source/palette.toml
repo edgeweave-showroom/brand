@@ -377,7 +377,7 @@ display-panes-active-colour = "cerulean"
 # Its colours depend on its internals, so they are written for one release,
 # named here only: CI checks them against it, and Renovate proposes the next.
 [tmux]
-catppuccin-release = "v2.3.1"
+catppuccin-release = "v2.3.2"
 
 # Its colours, by its own names, which it keeps when they are set before it
 # loads. Its layers match the palette's; its fourteen accents go to the
