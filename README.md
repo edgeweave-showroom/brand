@@ -41,7 +41,9 @@ type-checked by [mypy](https://mypy-lang.org/) in strict mode, with the
 configuration in [`pyproject.toml`](pyproject.toml); each `.py` file carries
 its own SPDX header, since scripts get copied into other tools. The colour
 themes must match their sources: CI generates them again and fails on any
-difference. CI runs all of it on every push. Locally:
+difference. The colours for Catppuccin's tmux plugin are checked against the
+release that `theme/source/palette.toml` names: the same `@thm_*` colours, and
+a tmux status line that takes them. CI runs all of it on every push. Locally:
 
 ```sh
 uvx reuse lint

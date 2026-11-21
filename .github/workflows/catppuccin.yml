@@ -1,0 +1,53 @@
+name: Catppuccin tmux plugin
+
+# tmux/edgeweave-dark-catppuccin.conf relies on two internals of Catppuccin's
+# plugin: the names of its @thm_* colours, and its keeping values set before
+# it loads. Nothing fails when either changes, the status line just drifts:
+# check both against the release palette.toml names, which Renovate moves.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  catppuccin:
+    runs-on: ubuntu-latest
+    env:
+      THEME: theme/tmux/edgeweave-dark-catppuccin.conf
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install tmux
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends tmux
+      - name: Download the release palette.toml names
+        run: |
+          release=$(python3 -c 'import tomllib; print(tomllib.load(open("theme/source/palette.toml", "rb"))["tmux"]["catppuccin-release"])')
+          echo "RELEASE=$release" >> "$GITHUB_ENV"
+          echo "PLUGIN=$RUNNER_TEMP/catppuccin" >> "$GITHUB_ENV"
+          mkdir "$RUNNER_TEMP/catppuccin"
+          curl -fsSL "https://github.com/catppuccin/tmux/archive/refs/tags/${release}.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP/catppuccin" --strip-components=1
+      # A colour the release adds would stay at mocha's value, one it renames
+      # would lose the Edgeweave value.
+      - name: Same @thm_* colours as the release
+        run: |
+          diff -u --label "catppuccin $RELEASE" --label "$THEME" \
+            <(grep -o '@thm_[a-z0-9_]*' "$PLUGIN/themes/catppuccin_mocha_tmux.conf" | sort -u) \
+            <(grep -o '@thm_[a-z0-9_]*' "$THEME" | sort -u)
+      # The plugin paints its status line mantle on fg: with the Edgeweave file
+      # sourced first, those must be the file's values, which the Python checks
+      # hold to palette.toml.
+      - name: The release keeps the Edgeweave colours
+        run: |
+          thm() { sed -n "s/^set -g @thm_$1 \"\(.*\)\"$/\1/p" "$THEME"; }
+          expected="bg=$(thm mantle),fg=$(thm fg)"
+          tmux -L smoke -f /dev/null new-session -d \; source-file "$THEME" \; run-shell "$PLUGIN/catppuccin.tmux"
+          actual=$(tmux -L smoke show-options -gv status-style)
+          tmux -L smoke kill-server
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::Catppuccin $RELEASE sets status-style to $actual, not the Edgeweave $expected"
+            exit 1
+          fi

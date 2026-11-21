@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["custom.regex"],
+  "customManagers": [
+    {
+      "description": "The Catppuccin release palette.toml names, and the generated file's header, which must stay in step with it",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^theme/source/palette\\.toml$/",
+        "/^theme/tmux/edgeweave-dark-catppuccin\\.conf$/"
+      ],
+      "matchStrings": [
+        "catppuccin-release = \"(?<currentValue>v\\d+\\.\\d+\\.\\d+)\"",
+        "for Catppuccin's tmux plugin (?<currentValue>v\\d+\\.\\d+\\.\\d+)\\."
+      ],
+      "depNameTemplate": "catppuccin/tmux",
+      "datasourceTemplate": "github-tags"
+    }
+  ]
+}

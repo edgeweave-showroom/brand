@@ -373,8 +373,13 @@ clock-mode-colour = "cerulean"
 display-panes-colour = "overlay0"
 display-panes-active-colour = "cerulean"
 
-# Catppuccin's tmux plugin, for those who use it in place of the styles above:
-# its colours, by its own names, which it keeps when they are set before it
+# Catppuccin's tmux plugin, for those who use it in place of the styles above.
+# Its colours depend on its internals, so they are written for one release,
+# named here only: CI checks them against it, and Renovate proposes the next.
+[tmux]
+catppuccin-release = "v2.3.1"
+
+# Its colours, by its own names, which it keeps when they are set before it
 # loads. Its layers match the palette's; its fourteen accents go to the
 # nearest of the palette's by hue, several to one.
 [tmux.catppuccin]
