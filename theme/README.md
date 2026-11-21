@@ -86,8 +86,10 @@ With [Catppuccin's tmux plugin](https://github.com/catppuccin/tmux), source
 `tmux/edgeweave-dark-catppuccin.conf` instead, before the plugin loads:
 Catppuccin keeps colours set before it, and takes these in place of its
 flavour. Its layers match the palette's; its fourteen accents go to the
-nearest of the palette's, several to one. Written for Catppuccin v2.3.1.
-Without the plugin, the file does nothing.
+nearest of the palette's, several to one. Its header names the Catppuccin
+release it is written for: pin the plugin to that one. CI checks the file
+against that release; Renovate proposes each new one, to merge once CI
+passes on it. Without the plugin, the file does nothing.
 
 **Starship.** To keep your own prompt, merge
 `starship/edgeweave-dark-palette-only.toml` into `~/.config/starship.toml`,

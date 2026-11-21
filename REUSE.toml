@@ -24,6 +24,7 @@ path = [
   ".editorconfig",
   ".gitattributes",
   ".gitignore",
+  ".github/renovate.json",
 ]
 SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
 SPDX-License-Identifier = "MIT"

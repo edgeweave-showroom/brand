@@ -96,6 +96,7 @@ VSCODE: dict[str, str] = SPEC["vscode"]["interface"]
 TMUX = styles(SPEC["tmux"]["styles"])
 TMUX_COLOURS: dict[str, str] = SPEC["tmux"]["colours"]
 CATPPUCCIN: dict[str, str] = SPEC["tmux"]["catppuccin"]
+CATPPUCCIN_RELEASE: str = SPEC["tmux"]["catppuccin-release"]
 
 
 def rgb(hex_colour: str) -> tuple[int, int, int]:
@@ -371,8 +372,9 @@ def tmux_catppuccin() -> str:
     lines = [f'set -g @thm_{name} "{colour(c)}"' for name, c in CATPPUCCIN.items()]
     usage = [
         "Catppuccin's status line in the Edgeweave colours, in place of",
-        "edgeweave-dark.conf. Source it from tmux.conf before the plugin loads,",
-        "which keeps colours set before it:",
+        f"edgeweave-dark.conf, for Catppuccin's tmux plugin {CATPPUCCIN_RELEASE}.",
+        "Source it from tmux.conf before the plugin loads, which keeps colours",
+        "set before it:",
         "  source-file ~/.config/tmux/edgeweave-dark-catppuccin.conf",
     ]
     title = "Edgeweave Dark for Catppuccin's tmux plugin"
