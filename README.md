@@ -51,3 +51,8 @@ uvx ruff check && uvx ruff format --check
 uvx mypy
 theme/source/generate.py && git diff --exit-code theme/
 ```
+
+CI also checks the workflows with [zizmor](https://docs.zizmor.sh/), and the
+whole history for secrets with [gitleaks](https://github.com/gitleaks/gitleaks).
+Actions are pinned by commit SHA, their version in a comment; Dependabot
+moves both, weekly, a week after each release.
