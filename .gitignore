@@ -9,6 +9,7 @@ Thumbs.db
 # Script tooling
 __pycache__/
 .venv/
+.coverage
 node_modules/
 .claude/settings.local.json
 

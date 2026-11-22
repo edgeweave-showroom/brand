@@ -7,9 +7,12 @@ requires-python = ">=3.14,<3.15"
 
 [dependency-groups]
 dev = [
+    "coverage>=7.17.3",
     "mypy>=2.4.1",
     "pip-audit>=2.10.1",
     "pre-commit>=4.7.0",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
     "reuse>=6.3.0",
     "ruff>=0.17.5",
 ]
@@ -27,6 +30,13 @@ ignore = [
   "COM812", # trailing commas are the formatter's job
 ]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+  "S101",    # assert is how pytest checks
+  "D103",    # a test's name is the sentence it checks
+  "PLR2004", # a test compares against the literal it expects
+]
+
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
 
@@ -40,3 +50,16 @@ files = ["."]
 explicit_package_bases = true
 warn_unreachable = true
 enable_error_code = ["ignore-without-code"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config"
+
+[tool.coverage.run]
+source = ["logo", "theme"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+exclude_also = ['if __name__ == "__main__":']
