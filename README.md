@@ -43,16 +43,28 @@ its own SPDX header, since scripts get copied into other tools. The colour
 themes must match their sources: CI generates them again and fails on any
 difference. The colours for Catppuccin's tmux plugin are checked against the
 release that `theme/source/palette.toml` names: the same `@thm_*` colours, and
-a tmux status line that takes them. CI runs all of it on every push. Locally:
+a tmux status line that takes them.
+
+[uv](https://docs.astral.sh/uv/) brings the toolchain: its own version in
+`pyproject.toml`, Python's in `.python-version`, the tools' in `uv.lock`. Once
+per clone:
 
 ```sh
-uvx reuse lint
-uvx ruff check && uvx ruff format --check
-uvx mypy
-theme/source/generate.py && git diff --exit-code theme/
+uv sync
+uv run pre-commit install
 ```
 
-CI also checks the workflows with [zizmor](https://docs.zizmor.sh/), and the
-whole history for secrets with [gitleaks](https://github.com/gitleaks/gitleaks).
-Actions are pinned by commit SHA, their version in a comment; Dependabot
-moves both, weekly, a week after each release.
+Each commit then fixes and formats the staged scripts, and each push runs the
+gate: every check above except Catppuccin's, which needs tmux and a download.
+CI runs the same gate, then Catppuccin's check. To run the gate by hand:
+
+```sh
+uv run pre-commit run --all-files --hook-stage pre-push
+```
+
+CI also audits the locked tools with
+[pip-audit](https://github.com/pypa/pip-audit), checks the workflows with
+[zizmor](https://docs.zizmor.sh/), and scans the whole history for secrets
+with [gitleaks](https://github.com/gitleaks/gitleaks). Actions are pinned by
+commit SHA, their version in a comment. Dependabot moves them and the tools
+weekly, a week after each release.

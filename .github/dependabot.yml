@@ -1,8 +1,19 @@
 version: 2
 
-# The actions only: Renovate proposes Catppuccin's releases, and nothing else
-# here has a manifest.
+# The development tools in uv.lock, and the actions. Renovate proposes
+# Catppuccin's releases.
 updates:
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      tools-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: Tools
   - package-ecosystem: github-actions
     directory: /
     schedule:

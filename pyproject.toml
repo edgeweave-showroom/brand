@@ -1,5 +1,25 @@
-[tool.ruff]
-target-version = "py314"
+# The scripts that generate the assets: standard library only, run in place,
+# never built or installed. The project exists for its toolchain.
+[project]
+name = "edgeweave-brand"
+version = "0"
+requires-python = ">=3.14,<3.15"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pip-audit>=2.10.1",
+    "pre-commit>=4.7.0",
+    "reuse>=6.3.0",
+    "ruff>=0.17.5",
+]
+
+[tool.uv]
+required-version = "==0.13.8"
+package = false
+# A release is a week old before the lockfile takes it, as Dependabot waits
+# a week before proposing it.
+exclude-newer = "7 days"
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -15,7 +35,8 @@ notice-rgx = "SPDX-FileCopyrightText: \\d{4} Technologies Edgeweave"
 
 [tool.mypy]
 strict = true
-python_version = "3.14"
 files = ["."]
 # Scripts named alike in different directories are told apart by their path.
 explicit_package_bases = true
+warn_unreachable = true
+enable_error_code = ["ignore-without-code"]

@@ -1,0 +1,66 @@
+default_install_hook_types: [pre-commit, pre-push]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+    hooks:
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        # Two trailing spaces are a line break in Markdown.
+        args: [--markdown-linebreak-ext=md]
+  - repo: local
+    hooks:
+      # Before each commit: the staged files, fixed in place.
+      - id: ruff-fix
+        name: ruff check --fix
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+        stages: [pre-commit]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        types: [python]
+        stages: [pre-commit]
+      # Before each push, and in CI: the gate.
+      - id: ruff
+        name: ruff check
+        entry: uv run ruff check .
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: ruff-format-check
+        name: ruff format --check
+        entry: uv run ruff format --check .
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: reuse
+        name: reuse lint
+        entry: uv run reuse lint
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      # The colour themes are generated: writing them again from palette.toml
+      # must leave theme/ as it is, untracked files included.
+      - id: themes
+        name: generated themes match their sources
+        entry: >-
+          sh -c 'uv run theme/source/generate.py >/dev/null
+          && git status --porcelain -- theme/ | { ! grep .; }'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
