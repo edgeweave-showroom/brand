@@ -55,8 +55,11 @@ uv run pre-commit install
 ```
 
 Each commit then fixes and formats the staged scripts, and each push runs the
-gate: every check above except Catppuccin's, which needs tmux and a download.
-CI runs the same gate, then Catppuccin's check. To run the gate by hand:
+gate: every check above except Catppuccin's, which needs tmux and a download,
+and the tests under `tests/`, at 90 % coverage at least. The logo's tests stand
+a fake in for rsvg-convert, so they need no librsvg; the ASCII logo's run its
+shell code through `sh`, and through shellcheck where it is installed. CI runs
+the same gate, then Catppuccin's check. To run the gate by hand:
 
 ```sh
 uv run pre-commit run --all-files --hook-stage pre-push
