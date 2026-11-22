@@ -1,9 +1,4 @@
-name: Catppuccin tmux plugin
-
-# tmux/edgeweave-dark-catppuccin.conf relies on two internals of Catppuccin's
-# plugin: the names of its @thm_* colours, and its keeping values set before
-# it loads. Nothing fails when either changes, the status line just drifts:
-# check both against the release palette.toml names, which Renovate moves.
+name: CI
 
 on:
   push:
@@ -17,6 +12,31 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # The gate, as the pre-push hook runs it: uv, Python and the tools come
+  # from pyproject.toml, .python-version and uv.lock.
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run pre-commit run --all-files --hook-stage pre-push
+      - name: Audit the locked dependencies
+        run: |
+          uv export --format requirements-txt --no-emit-project --all-groups --no-hashes \
+            | uv run pip-audit --strict -r /dev/stdin
+
+  # tmux/edgeweave-dark-catppuccin.conf relies on two internals of Catppuccin's
+  # plugin: the names of its @thm_* colours, and its keeping values set before
+  # it loads. Nothing fails when either changes, the status line just drifts:
+  # check both against the release palette.toml names, which Renovate moves.
   catppuccin:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -46,8 +66,8 @@ jobs:
             <(grep -o '@thm_[a-z0-9_]*' "$PLUGIN/themes/catppuccin_mocha_tmux.conf" | sort -u) \
             <(grep -o '@thm_[a-z0-9_]*' "$THEME" | sort -u)
       # The plugin paints its status line mantle on fg: with the Edgeweave file
-      # sourced first, those must be the file's values, which the Python checks
-      # hold to palette.toml.
+      # sourced first, those must be the file's values, which the gate holds to
+      # palette.toml.
       - name: The release keeps the Edgeweave colours
         run: |
           thm() { sed -n "s/^set -g @thm_$1 \"\(.*\)\"$/\1/p" "$THEME"; }
@@ -59,3 +79,18 @@ jobs:
             echo "::error::Catppuccin $RELEASE sets status-style to $actual, not the Edgeweave $expected"
             exit 1
           fi
+
+  zizmor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
+        with:
+          version: "1.32.0"
+          advanced-security: false
+          annotations: true

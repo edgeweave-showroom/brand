@@ -25,6 +25,8 @@ path = [
   ".gitattributes",
   ".gitignore",
   ".github/renovate.json",
+  ".python-version",
+  "uv.lock",
 ]
 SPDX-FileCopyrightText = "2026 Technologies Edgeweave"
 SPDX-License-Identifier = "MIT"

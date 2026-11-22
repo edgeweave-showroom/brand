@@ -2,6 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "enabledManagers": ["custom.regex"],
+  "semanticCommits": "enabled",
   "customManagers": [
     {
       "description": "The Catppuccin release palette.toml names, and the generated file's header, which must stay in step with it",
