@@ -13,7 +13,8 @@ updates:
       tools-minor-and-patch:
         update-types: [minor, patch]
     commit-message:
-      prefix: Tools
+      prefix: build
+      include: scope
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -24,4 +25,4 @@ updates:
       actions-minor-and-patch:
         update-types: [minor, patch]
     commit-message:
-      prefix: CI
+      prefix: ci
